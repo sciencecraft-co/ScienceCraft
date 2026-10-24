@@ -1,0 +1,22 @@
+# material de trabajo, no se publica
+.taste-skill/
+index-v1.html
+tomas.py
+LEEME.md
+*.tmp
+# imágenes que ya no usa index.html (las usa index-v1.html, que se queda en local)
+img/anillo-sureste.jpg
+img/experta-antonia.png
+img/experta-policarpa.png
+img/expertas-grupo.png
+img/isla10-galton-abajo.jpg
+img/isla13-observatorio.jpg
+img/isla9-trapiche.jpg
+img/lamina-arrecife.jpg
+img/lamina-observatorio.jpg
+img/lamina-polya-en-el-mundo.jpg
+img/lamina-polya.jpg
+img/lamina-tiro.jpg
+img/portada.jpg
+img/print-isla13-observatorio.jpg
+img/retrato-*.jpg

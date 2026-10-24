@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScienceCraft · Probabilidad en vivo para colegios</title>
+<meta name="description" content="Un laboratorio de estadística e investigación dentro de Minecraft para colegios: trece islas, cada una una máquina de azar con su gráfica en vivo, y cuatro expertos de IA para las etapas del método.">
+<meta property="og:title" content="ScienceCraft · Probabilidad en vivo">
+<meta property="og:description" content="Trece islas, diecisiete distribuciones y gráficas que se dibujan solas. Para colegios que investigan.">
+<meta property="og:image" content="https://sciencecraft-co.github.io/ScienceCraft/img/og.jpg">
+<meta property="og:url" content="https://sciencecraft-co.github.io/ScienceCraft/">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  /* campos de color: cada capítulo tiene el suyo */
+  --paper: #f2f3f5;   --paper-ink: #0b0d12;
+  --yellow: #f7dd47;  --yellow-ink: #0b0d12;
+  --sky: #a9cdf7;     --sky-ink: #0b0d12;
+  --blue: #1423b8;    --blue-2: #1220a6;   --blue-ink: #ffffff;
+  --black: #0b0d12;   --black-2: #161a23;  --black-ink: #ffffff;
+  --grass: #17462a;   --grass-2: #1d5233;  --grass-ink: #ffffff;
+  --accent: #1fc27a;  --accent-ink: #0b0d12;
+  --soft-on-dark: #c9cede;
+  --soft-on-light: #2c3140;
+  --m: clamp(16px, 2.4vw, 36px);
+  --gap: 10px;
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --font: "General Sans", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--paper-ink); font: 400 var(--step-body)/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.02em; line-height: .95; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--yellow); color: var(--yellow-ink); }
+
+/* idioma */
+html[data-lang="es"] [lang="en"]:not(html) { display: none !important; }
+html[data-lang="en"] [lang="es"]:not(html) { display: none !important; }
+
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); padding: 0 var(--m); }
+.btn { display: inline-flex; align-items: center; gap: .6em; min-height: 52px; padding: 0 24px; background: var(--accent); color: var(--accent-ink); font-weight: 500; text-decoration: none; border: 0; cursor: pointer; transition: transform .18s var(--ease), background-color .18s; }
+.btn:hover { background: #2ad889; }
+.btn:active { transform: scale(.97); }
+.btn .arr { transition: transform .18s var(--ease); }
+.btn:hover .arr { transform: translateX(4px); }
+.llenar { background: var(--yellow); color: var(--yellow-ink); padding: 0 .2em; }
+
+/* cabecera fija: toma la tinta del capítulo de abajo */
+.top { position: fixed; z-index: 30; top: 0; left: 0; right: 0; height: 64px; display: flex; align-items: center; gap: 22px; padding: 0 calc(var(--m) + 28px); pointer-events: none; color: var(--hdr, #0b0d12); background: var(--hdrbg, transparent); transition: color .3s, background-color .3s; }
+.top > * { pointer-events: auto; }
+.mark { font-weight: 700; font-size: 20px; letter-spacing: -0.02em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.mark i { width: 16px; height: 16px; background: currentColor; display: inline-block; }
+.lang { background: none; border: 0; cursor: pointer; font-weight: 500; font-size: var(--step-small); padding: 8px 0; text-decoration: underline; text-underline-offset: 4px; }
+
+/* 1 · portada: foto + columna de muestras */
+.hero { padding: 10px; background: var(--paper); }
+.hero-in { display: grid; grid-template-columns: 10fr 2fr; height: calc(100svh - 20px); min-height: 620px; }
+.panel { position: relative; overflow: hidden; background: #b9d2f4; }
+.panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; animation: deriva 28s ease-in-out infinite alternate; transform-origin: 60% 70%; }
+@keyframes deriva { from { transform: scale(1); } to { transform: scale(1.07); } }
+.panel h1 { position: absolute; left: 28px; right: 28px; top: 15%; font-size: clamp(64px, 8.6vw, 132px); line-height: .9; letter-spacing: -0.03em; color: var(--paper-ink); }
+.panel .apoyo { position: absolute; left: 28px; bottom: 36px; max-width: min(520px, 40%); font-size: var(--step-body); font-weight: 500; color: var(--paper-ink); background: var(--paper); padding: 16px 18px; }
+.panel .btn { position: absolute; right: 28px; bottom: 36px; }
+.swatches { display: grid; grid-template-rows: repeat(5, 1fr); }
+.swatches a { display: block; padding: 20px; text-decoration: none; font-weight: 500; font-size: 16px; transition: padding-left .2s var(--ease); }
+.swatches a:hover { padding-left: 28px; }
+.sw-yellow { background: var(--yellow); color: var(--yellow-ink); }
+.sw-sky { background: var(--sky); color: var(--sky-ink); }
+.sw-blue { background: var(--blue); color: var(--blue-ink); }
+.sw-grass { background: var(--grass); color: var(--grass-ink); }
+.sw-black { background: var(--black); color: var(--black-ink); }
+.apoyo-movil { display: none; }
+.panel .corto { display: none; }
+
+/* 2 · cómo se investiga: baldosas que crecen */
+.como { background: var(--yellow); color: var(--yellow-ink); padding: 160px 0 140px; }
+.como .grid { align-items: end; row-gap: 22px; }
+.como h2 { grid-column: 1 / 5; grid-row: 1; align-self: start; font-size: var(--step-head); }
+.como .intro { grid-column: 1 / 5; grid-row: 1; align-self: start; margin-top: 160px; max-width: 26ch; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; }
+.tile { grid-row: 1; overflow: hidden; position: relative; }
+.tile img { position: absolute; bottom: 0; left: 5%; width: 90%; height: 90%; object-fit: contain; object-position: 50% 100%; }
+.t1 { grid-column: 5 / 7; height: 28vh; background: var(--paper); }
+.t2 { grid-column: 7 / 9; height: 38vh; background: var(--sky); }
+.t3 { grid-column: 9 / 11; height: 50vh; background: var(--blue); }
+.t4 { grid-column: 11 / 13; height: 64vh; background: var(--paper); }
+.paso { grid-row: 2; }
+.paso h3 { font-size: var(--step-lead); letter-spacing: -0.01em; line-height: 1.1; font-weight: 500; }
+.paso p { margin-top: 8px; font-size: 16px; line-height: 1.45; color: var(--paper-ink); }
+.p1 { grid-column: 5 / 7; } .p2 { grid-column: 7 / 9; } .p3 { grid-column: 9 / 11; } .p4 { grid-column: 11 / 13; }
+.como-pie { grid-column: 5 / 13; grid-row: 3; margin-top: 48px; display: flex; gap: 32px; align-items: center; justify-content: space-between; }
+.como-pie p { font-size: var(--step-body); max-width: 60ch; }
+
+/* 3 · trece islas: impresos sobre el titular */
+.trece { position: relative; background: var(--blue); color: var(--blue-ink); min-height: 100svh; overflow: hidden; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); padding: 0 var(--m); align-items: center; }
+.trece h2 { grid-column: 1 / 7; font-size: clamp(110px, 13vw, 210px); line-height: .85; letter-spacing: -0.04em; position: relative; z-index: 2; }
+.trece .nota { grid-column: 1 / 6; align-self: end; margin-bottom: 40px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; grid-row: 1; }
+.prints { grid-column: 7 / 13; grid-row: 1; position: relative; height: 100svh; }
+.print { position: absolute; width: 21vw; max-width: 340px; border: 8px solid #fff; transition: transform .2s var(--ease); }
+.print:hover { z-index: 5; transform: rotate(0deg) scale(1.02) !important; }
+.pr1 { left: 0; top: 14%; transform: rotate(-8deg); }
+.pr2 { left: 30%; top: 26%; transform: rotate(6deg); }
+.pr3 { right: 0; bottom: -10%; width: 15vw; transform: rotate(-3deg); }
+
+/* 4 · las islas: tarjetas que cruzan una foto quieta */
+.show { position: relative; background: var(--black); color: #fff; }
+.show-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.show-stage { background: var(--black); }
+.track { position: absolute; top: 0; bottom: 0; left: 0; display: flex; align-items: center; gap: 40px; padding: 0 var(--m); will-change: transform; }
+.track-head { flex: 0 0 auto; width: min(560px, 42vw); }
+.track-head h2 { font-size: var(--step-head); }
+.track-head p { margin-top: 20px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; max-width: 26ch; }
+.card { flex: 0 0 auto; width: min(520px, 38vw); height: min(560px, 68svh); display: grid; grid-template-rows: 68% 32%; background: var(--black-2); }
+.card img { width: 100%; height: 100%; object-fit: cover; }
+.card .pan { display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: 22px 24px; }
+.card h3 { font-size: var(--step-lead); line-height: 1.1; }
+.card .que { font-size: 16px; line-height: 1.4; }
+.card .dist { display: block; font-size: var(--step-small); font-weight: 500; margin-bottom: 8px; color: var(--soft-on-dark); }
+.c1 .pan { background: #2a2416; } .c2 .pan { background: #12263b; } .c3 .pan { background: #2b1631; }
+.c4 .pan { background: #0f2c2c; } .c5 .pan { background: #33201a; } .c6 .pan { background: #1f2b17; }
+.show-mas { position: absolute; left: var(--m); bottom: 26px; font-size: 16px; color: var(--soft-on-dark); max-width: 70ch; }
+
+/* 6 · el experimento: la apuesta */
+.exp { background: var(--sky); color: var(--sky-ink); padding: 160px 0 140px; }
+.exp .grid { row-gap: 0; }
+.exp-izq { grid-column: 1 / 6; }
+.exp h2 { font-size: var(--step-head); }
+.exp .q { margin-top: 26px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; }
+.apuesta { margin-top: 36px; }
+.apuesta > p { font-size: 16px; font-weight: 500; }
+.fichas { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-top: 12px; }
+.fichas button { min-height: 56px; border: 0; background: var(--paper); color: var(--paper-ink); font-size: 22px; font-weight: 700; cursor: pointer; transition: transform .15s var(--ease), background-color .15s; }
+.fichas button:hover { background: #fff; }
+.fichas button:active { transform: scale(.94); }
+.fichas button[aria-pressed="true"] { background: var(--black); color: #fff; }
+.saltar { margin-top: 14px; background: none; border: 0; padding: 6px 0; font-size: 16px; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.veredicto { margin-top: 22px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; min-height: 2.6em; }
+.grafica { grid-column: 7 / 13; align-self: center; }
+#polya { width: 100%; height: auto; overflow: visible; }
+#polya text { font: 500 13px var(--font); fill: var(--sky-ink); }
+#polya .val { font-size: 15px; font-weight: 700; }
+.barra, .val { transition: opacity .5s var(--ease); }
+.oculta .barra, .oculta .val { opacity: 0; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 18px; font-size: 15px; font-weight: 500; margin-bottom: 14px; }
+.leyenda span { display: inline-flex; align-items: center; gap: 8px; }
+.ly-bar { width: 14px; height: 14px; background: var(--blue); }
+.ly-line { width: 22px; height: 3px; background: var(--black); }
+.ly-dot { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid var(--black); }
+.cifras { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin-top: 90px; }
+.cifras div { padding: 0 20px 0 0; }
+.cifras b { display: block; font-size: clamp(40px, 5vw, 76px); letter-spacing: -0.03em; line-height: 1; }
+.cifras span { display: block; margin-top: 10px; font-size: 16px; font-weight: 500; }
+.tip { position: fixed; pointer-events: none; background: var(--black); color: #fff; font-size: 14px; line-height: 1.45; padding: 8px 10px; opacity: 0; transition: opacity .12s; z-index: 40; }
+.tabla-wrap { grid-column: 1 / 13; margin-top: 40px; }
+details { font-size: 16px; }
+summary { cursor: pointer; font-weight: 500; }
+details table { border-collapse: collapse; margin-top: 10px; width: 100%; max-width: 520px; }
+details th, details td { padding: 6px 8px; text-align: right; border-bottom: 1px solid rgba(11,13,18,.25); }
+details th:first-child, details td:first-child { text-align: left; }
+
+/* 7 · la estación Curie: frase con miniaturas */
+.curie { background: var(--black); color: var(--black-ink); padding: 160px var(--m); }
+.curie h2 { font-size: var(--step-head); }
+.curie .frase { margin: 7vh 0 0 auto; width: min(1000px, 72vw); font-size: clamp(24px, 2.5vw, 36px); font-weight: 500; line-height: 1.16; letter-spacing: -0.015em; }
+.mini { display: inline-block; height: .9em; width: 1.6em; vertical-align: -0.1em; overflow: hidden; }
+.mini img { width: 100%; height: 100%; object-fit: cover; }
+.curie .aclara { margin: 6vh 0 0 auto; width: min(1000px, 72vw); font-size: var(--step-body); color: var(--soft-on-dark); }
+
+/* 8 · programas: baldosas que suben como barras */
+.progs { background: var(--paper); padding: 160px 0 140px; }
+.progs h2 { grid-column: 1 / 8; font-size: var(--step-head); }
+.progs .q { grid-column: 1 / 7; margin-top: 22px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; }
+.barras { grid-column: 1 / 13; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: end; margin-top: 64px; }
+.prog { padding: 28px; }
+.prog .dur { font-size: var(--step-lead); font-weight: 500; margin-top: 6px; }
+.prog h3 { font-size: clamp(2rem, 1rem + 2vw, 3rem); }
+.prog p { margin-top: 14px; font-size: 16px; line-height: 1.45; max-width: 38ch; }
+.prog ul { margin: 18px 0 0; padding: 0 0 0 1.1em; font-size: 16px; line-height: 1.5; }
+.b1 { height: 380px; background: var(--yellow); color: var(--yellow-ink); }
+.b2 { height: 500px; background: var(--grass); color: var(--grass-ink); }
+.b3 { height: 640px; background: var(--blue); color: var(--blue-ink); }
+.progs .nota { grid-column: 1 / 9; margin-top: 26px; font-size: var(--step-body); }
+
+/* 9 · preguntas: una banda por pregunta */
+.faq-head { background: var(--yellow); color: var(--yellow-ink); min-height: 30svh; padding-top: 80px; display: flex; align-items: flex-end; padding: 0 var(--m) 40px; }
+.faq-head h2 { font-size: clamp(56px, 7vw, 110px); }
+.band { padding: 56px var(--m); }
+.band:nth-child(odd) { background: var(--blue); color: var(--blue-ink); }
+.band:nth-child(even) { background: var(--blue-2); color: var(--blue-ink); }
+.band h3 { grid-column: 1 / 6; font-size: var(--step-lead); line-height: 1.15; letter-spacing: -0.01em; }
+.band p { grid-column: 7 / 13; font-size: var(--step-body); line-height: 1.5; }
+
+/* 10 · contacto: renglones grandes */
+.contacto { background: var(--grass); color: var(--grass-ink); }
+.row { display: flex; align-items: flex-end; min-height: 150px; padding: 0 var(--m) 26px; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.02em; text-decoration: none; transition: padding-left .25s var(--ease); }
+.row:nth-child(even) { background: var(--grass-2); }
+a.row:hover { padding-left: calc(var(--m) + 18px); }
+.row h2 { font-size: inherit; letter-spacing: inherit; line-height: inherit; }
+.row.bio { min-height: 0; padding-top: 30px; padding-bottom: 34px; font-size: var(--step-lead); font-weight: 500; line-height: 1.35; letter-spacing: 0; }
+.row.bio .txt { max-width: 62ch; }
+.row.saludo { gap: 24px; align-items: center; padding-top: 30px; }
+.row.saludo .btn { min-height: 0; height: .9em; width: .9em; padding: 0; justify-content: center; font-size: 1em; }
+
+/* 11 · pie: el nombre construido con bloques (alturas de una campana) */
+.pie { background: var(--black); color: var(--black-ink); padding: 80px var(--m) 36px; }
+.bloques { display: flex; align-items: flex-end; gap: 4px; height: 34svh; min-height: 200px; }
+.bloques span { flex: 1 1 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: .1em; font-weight: 700; font-size: clamp(28px, 6.4vw, 104px); line-height: 1; color: var(--black); transform-origin: bottom; }
+.js .bloques span { transform: scaleY(.15); transition: transform .9s var(--ease); }
+.js .bloques.in span { transform: none; }
+.pie-bajo { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); margin-top: 56px; font-size: 15px; }
+.pie-bajo nav { grid-column: 1 / 9; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.pie-bajo nav a { text-decoration: none; color: var(--soft-on-dark); }
+.pie-bajo nav a:hover { color: #fff; }
+.pie-bajo .dato { grid-column: 9 / 13; color: var(--soft-on-dark); }
+.pie-fin { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 40px; font-size: 14px; color: var(--soft-on-dark); }
+
+/* entradas (solo con script; sin script todo se ve) */
+.js .rv { opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.js .rv.in { opacity: 1; transform: none; }
+
+/* tableta */
+@media (max-width: 1000px) {
+  .prog h3 { font-size: var(--step-lead); }
+  .prog { padding: 22px; }
+  .panel .corto { display: block; position: absolute; left: 28px; top: calc(15% + 2 * 0.9 * 8.6vw + 24px); font-size: 20px; font-weight: 500; color: var(--paper-ink); max-width: 26ch; background: var(--paper); padding: 10px 14px; }
+  .panel .apoyo { display: none; }
+  .exp-izq, .grafica { grid-column: 1 / 13; }
+  .grafica { margin-top: 50px; }
+}
+
+/* teléfono: cada sección es su propia composición */
+@media (max-width: 760px) {
+  .top { padding: 0 26px; height: 56px; }
+  .hero { padding: 8px; }
+  .hero-in { grid-template-columns: 1fr; height: auto; min-height: 0; }
+  .panel { height: 64svh; min-height: 460px; }
+  .panel h1 { font-size: 13vw; left: 20px; right: 20px; top: 14%; }
+  .panel .corto { left: 20px; top: calc(14% + 2 * 0.9 * 13vw + 16px); font-size: 18px; }
+  .panel .apoyo { display: none; }
+  .panel .btn { left: 20px; right: auto; bottom: 22px; }
+  .swatches { grid-template-rows: none; }
+  .swatches a { padding: 15px 20px; font-size: 15px; }
+  .apoyo-movil { display: block; background: var(--yellow); color: var(--yellow-ink); padding: 40px var(--m) 0; font-size: 18px; font-weight: 500; line-height: 1.4; }
+
+  .como { padding: 60px 0 70px; }
+  .como .grid > * { grid-column: 1 / 13 !important; grid-row: auto !important; }
+  .como .intro { margin: 16px 0 24px; }
+  .t1 { height: 46vw; } .t2 { height: 56vw; } .t3 { height: 66vw; } .t4 { height: 76vw; }
+  .como-pie { order: 9; flex-direction: column; align-items: flex-start; margin-top: 10px; }
+  .paso { margin-bottom: 26px; }
+  .como .grid { display: flex; flex-direction: column; align-items: stretch; }
+  .t1 { order: 1; } .p1 { order: 2; } .t2 { order: 3; } .p2 { order: 4; } .t3 { order: 5; } .p3 { order: 6; } .t4 { order: 7; } .p4 { order: 8; }
+  .como h2 { order: -2; } .como .intro { order: -1; }
+
+  .trece { display: block; min-height: 0; padding: 80px var(--m) 60px; }
+  .trece h2 { font-size: 22vw; }
+  .trece .nota { margin: 20px 0 0; font-size: 18px; }
+  .prints { height: 108vw; margin-top: 10px; }
+  .print { width: 50vw; border-width: 6px; }
+  .pr1 { left: 0; top: 4%; transform: rotate(-6deg); }
+  .pr2 { left: auto; right: 0; top: 22%; transform: rotate(5deg); }
+  .pr3 { display: none; }
+
+  .show-stage { position: relative; height: auto; overflow: visible; }
+  .track { position: relative; flex-direction: column; align-items: stretch; transform: none !important; padding: 0 16px 40px; gap: 24px; }
+  .track-head { width: auto; order: -1; padding-top: 70px; }
+  .track-head h2 { font-size: 9vw; }
+  .card { width: 100%; height: auto; grid-template-rows: auto auto; }
+  .card img { aspect-ratio: 4 / 3; height: auto; }
+  .card .pan { grid-template-columns: 1fr; min-height: 140px; gap: 10px; }
+  .card .que { text-align: left; }
+  .show-mas { position: relative; left: auto; bottom: auto; padding: 0 16px 60px; }
+
+
+  .exp { padding: 90px 0 70px; }
+  .fichas { grid-template-columns: repeat(4, 1fr); }
+  .cifras { grid-template-columns: 1fr; margin-top: 50px; row-gap: 28px; }
+  .cifras div { display: grid; grid-template-columns: 9ch 1fr; gap: 16px; align-items: center; }
+  .cifras span { margin-top: 0; }
+
+  .curie { padding: 90px var(--m); min-height: 0; }
+  .curie .frase, .curie .aclara { width: auto; margin-left: 0; }
+  .curie .frase { font-size: var(--step-lead); }
+
+  .progs { padding: 90px 0 70px; }
+  .progs h2, .progs .q, .progs .nota { grid-column: 1 / 13; }
+  .barras { grid-template-columns: 1fr; }
+  .b1 { height: auto; min-height: 260px; } .b2 { height: auto; min-height: 300px; } .b3 { height: auto; min-height: 340px; }
+
+  .faq-head { min-height: 30svh; }
+  .faq-head h2 { font-size: 13vw; }
+  .band { padding: 32px var(--m); }
+  .band h3, .band p { grid-column: 1 / 13; }
+  .band h3 { margin-bottom: 12px; }
+
+  .row { font-size: 9.6vw; min-height: 84px; padding-bottom: 16px; }
+  .row.saludo { background: var(--accent) !important; color: var(--accent-ink); justify-content: space-between; }
+  .row.saludo .btn { background: var(--grass); color: #fff; height: 56px; width: 56px; font-size: 26px; }
+
+  .bloques { height: 22svh; min-height: 140px; }
+  .bloques span { font-size: 7vw; }
+  .pie-bajo nav { grid-column: 1 / 13; grid-template-columns: 1fr 1fr; }
+  .pie-bajo .dato { grid-column: 1 / 13; margin-top: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .panel img { animation: none; }
+  .js .rv, .js .bloques span { opacity: 1; transform: none; transition: none; }
+  .show-stage { position: relative; height: auto; }
+  .track { position: relative; flex-wrap: wrap; transform: none !important; padding: 100px var(--m); }
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <a class="mark" href="#inicio"><i aria-hidden="true"></i>ScienceCraft</a>
+  <button class="lang" id="lang" type="button" aria-label="Cambiar idioma / Switch language">English</button>
+</header>
+
+<main>
+
+<!-- 1 · PORTADA -->
+<section class="hero" id="inicio" data-ink="#0b0d12">
+  <div class="hero-in">
+    <div class="panel">
+      <img src="img/portada-l.jpg" width="1640" height="950" alt="Vista aérea de un castillo rodeado por un anillo de trece islas flotantes unidas por puentes de madera.">
+      <h1><span lang="es">Probabilidad<br>en vivo</span><span lang="en">Probability,<br>live</span></h1>
+      <p class="corto"><span lang="es">Un laboratorio de estadística en Minecraft, para colegios.</span><span lang="en">A statistics lab inside Minecraft, for schools.</span></p>
+      <p class="apoyo"><span lang="es">ScienceCraft es un laboratorio de estadística e investigación dentro de Minecraft para colegios: trece islas, cada una una máquina de azar con su gráfica en vivo.</span><span lang="en">ScienceCraft is a statistics and research lab inside Minecraft, for schools: thirteen islands, each a machine of chance with its own live chart.</span></p>
+      <a class="btn" href="#contacto"><span lang="es">Agendar una demostración</span><span lang="en">Book a demo</span> <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+    <nav class="swatches" aria-label="Capítulos">
+      <a class="sw-yellow" href="#como"><span lang="es">Cómo se investiga</span><span lang="en">How it works</span></a>
+      <a class="sw-sky" href="#experimento"><span lang="es">Apueste</span><span lang="en">Place a bet</span></a>
+      <a class="sw-blue" href="#islas"><span lang="es">Las islas</span><span lang="en">The islands</span></a>
+      <a class="sw-grass" href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+      <a class="sw-black" href="#curie"><span lang="es">Estación Curie</span><span lang="en">Curie station</span></a>
+    </nav>
+  </div>
+  <p class="apoyo-movil"><span lang="es">ScienceCraft es un laboratorio de estadística e investigación dentro de Minecraft para colegios: trece islas, cada una una máquina de azar con su gráfica en vivo.</span><span lang="en">ScienceCraft is a statistics and research lab inside Minecraft, for schools: thirteen islands, each a machine of chance with its own live chart.</span></p>
+</section>
+
+<!-- 2 · CÓMO SE INVESTIGA: las cuatro etapas, cada una con su experto -->
+<section class="como" id="como" data-ink="#0b0d12" data-bg="#f7dd47">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Cómo se investiga</span><span lang="en">How research works</span></h2>
+    <p class="intro rv"><span lang="es">Cuatro etapas del método, una en cada sala del castillo. En cada una espera un experto de inteligencia artificial.</span><span lang="en">Four stages of the method, one in each room of the castle. In each one an artificial-intelligence expert is waiting.</span></p>
+    <div class="tile t1 rv"><img src="img/experta-soledad.png" width="300" height="450" loading="lazy" alt="Soledad, figura de bloques con vestido azul de cuello alto y moño."></div>
+    <div class="tile t2 rv"><img src="img/experta-darwin.png" width="300" height="450" loading="lazy" alt="Darwin, figura de bloques calva con barba blanca y abrigo oscuro."></div>
+    <div class="tile t3 rv"><img src="img/experta-angela.png" width="300" height="450" loading="lazy" alt="Ángela, figura de bloques con bata de laboratorio, gafas doradas y canas cortas."></div>
+    <div class="tile t4 rv"><img src="img/experta-curie.png" width="300" height="450" loading="lazy" alt="Marie Curie, figura de bloques con vestido negro de cuello alto y un frasco de radio."></div>
+    <div class="paso p1 rv"><h3><span lang="es">Biblioteca · Soledad</span><span lang="en">Library · Soledad</span></h3><p lang="es">¿Qué se sabe ya? Busca, lee y cita artículos para que la pregunta parta de lo conocido.</p><p lang="en">What is already known? She finds, reads and cites papers so the question starts from what is known.</p></div>
+    <div class="paso p2 rv"><h3><span lang="es">Taller · Darwin</span><span lang="en">Workshop · Darwin</span></h3><p lang="es">Ordena los datos, como en el viaje del Beagle, y los publica como mapa en los tableros del mundo.</p><p lang="en">He organizes the data, as on the Beagle voyage, and publishes it as a map on the in-world boards.</p></div>
+    <div class="paso p3 rv"><h3><span lang="es">Laboratorio · Ángela</span><span lang="en">Laboratory · Ángela</span></h3><p lang="es">¿Cómo se pone a prueba? Diseña el experimento; aquí entran las máquinas de las islas.</p><p lang="en">How do we test it? She designs the experiment; this is where the island machines come in.</p></div>
+    <div class="paso p4 rv"><h3><span lang="es">Análisis · Curie</span><span lang="en">Analysis · Curie</span></h3><p lang="es">¿Qué dicen los datos, y qué no? Interpreta los resultados sin exagerarlos: χ² y p.</p><p lang="en">What does the data say, and what doesn’t it? She interprets results without overstating them: χ² and p.</p></div>
+    <div class="como-pie rv">
+      <p><span lang="es">Son inteligencias artificiales que honran a Soledad Acosta de Samper, Charles Darwin, Ángela Restrepo Moreno y Marie Curie: no se hacen pasar por ellos ni inventan datos de su vida. En el colegio los consulta el tallerista con las preguntas del grupo.</span><span lang="en">They are artificial intelligences that honor Soledad Acosta de Samper, Charles Darwin, Ángela Restrepo Moreno and Marie Curie: they do not pretend to be them or invent facts about their lives. At school the facilitator consults them with the group’s questions.</span></p>
+      <a class="btn" href="#contacto"><span lang="es">Conocerlos en una demostración</span><span lang="en">Meet them in a demo</span> <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · TRECE ISLAS -->
+<section class="trece" id="islas" data-ink="#ffffff" data-bg="#1423b8">
+  <h2><span lang="es">Trece<br>islas</span><span lang="en">Thirteen<br>islands</span></h2>
+  <div class="prints">
+  <img class="print pr1" src="img/print-isla9-trapiche.jpg" width="900" height="1200" loading="lazy" alt="Cañaveral del Trapiche sobre una isla flotante.">
+  <img class="print pr2" src="img/print-isla6-tejeduria.jpg" width="900" height="1200" loading="lazy" alt="Columnas de lana de colores de la Tejeduría.">
+  <img class="print pr3" src="img/print-isla10-galton-abajo.jpg" width="900" height="1200" loading="lazy" alt="El tablero de Galton colgando bajo la isla del Campanario.">
+  </div>
+  <p class="nota"><span lang="es">Un anillo de islas flotantes alrededor de un castillo, unidas por puentes. Se recorre a pie, como un rally de estaciones.</span><span lang="en">A ring of floating islands around a castle, joined by bridges. You walk it like a rally of stations.</span></p>
+</section>
+
+<!-- 4 · LAS ISLAS, UNA POR UNA -->
+<section class="show" id="una-por-una" data-ink="#ffffff" data-bg="#0b0d12">
+  <div class="show-wrap" id="showWrap">
+    <div class="show-stage">
+      <div class="track" id="track">
+        <div class="track-head">
+          <h2><span lang="es">Cada isla, una pregunta</span><span lang="en">Every island, a question</span></h2>
+          <p><span lang="es">Diecisiete distribuciones de probabilidad, cada una con una máquina que la produce sin trampa: es el código del juego.</span><span lang="en">Seventeen probability distributions, each produced by a machine with no tricks: it is the game’s own code.</span></p>
+        </div>
+        <article class="card c1"><img src="img/isla10-campanario.jpg" width="1400" height="788" loading="lazy" alt="Campanario con dos pilares y un tablero de columnas de colores.">
+          <div class="pan"><h3><span lang="es">El Campanario</span><span lang="en">The Bell Tower</span></h3><p class="que"><span class="dist">Normal</span><span lang="es">Un tablero de Galton cuelga bajo la isla: la campana de Gauss se apila sola.</span><span lang="en">A Galton board hangs under the island: the bell curve stacks itself.</span></p></div></article>
+        <article class="card c2"><img src="img/isla1-moneda.jpg" width="1400" height="788" loading="lazy" alt="Casa colonial blanca con techo de teja.">
+          <div class="pan"><h3><span lang="es">La Casa de la Moneda</span><span lang="en">The Mint</span></h3><p class="que"><span class="dist">Bernoulli · binomial</span><span lang="es">¿Es justa una moneda de redstone? 200 tiros y un χ².</span><span lang="en">Is a redstone coin fair? 200 flips and a χ².</span></p></div></article>
+        <article class="card c3"><img src="img/isla6-tejeduria.jpg" width="1400" height="788" loading="lazy" alt="Columnas altas de lana de seis colores.">
+          <div class="pan"><h3><span lang="es">La Tejeduría</span><span lang="en">The Weaving Mill</span></h3><p class="que"><span class="dist"><span lang="es">Uniforme · multinomial</span><span lang="en">Uniform · multinomial</span></span><span lang="es">Un dado de seis lanas teje su propio histograma.</span><span lang="en">A six-wool die weaves its own histogram.</span></p></div></article>
+        <article class="card c4"><img src="img/isla7-arrecife.jpg" width="1400" height="788" loading="lazy" alt="Tanque de vidrio con algas sobre una isla.">
+          <div class="pan"><h3><span lang="es">El Arrecife</span><span lang="en">The Reef</span></h3><p class="que"><span class="dist">Poisson</span><span lang="es">25 algas crecen al azar: ¿cuántos brotes por minuto?</span><span lang="en">25 kelp plants grow at random: how many sprouts a minute?</span></p></div></article>
+        <article class="card c5"><img src="img/isla11-tiro.jpg" width="1400" height="788" loading="lazy" alt="Dispensador frente a una diana.">
+          <div class="pan"><h3><span lang="es">El Campo de Tiro</span><span lang="en">The Range</span></h3><p class="que"><span class="dist">Triangular</span><span lang="es">El dispensador no apunta con una campana, sino con un triángulo.</span><span lang="en">The dispenser aims not with a bell curve but with a triangle.</span></p></div></article>
+        <article class="card c6"><img src="img/isla12-polya.jpg" width="1400" height="788" loading="lazy" alt="Jardín de flores en columnas frente a un tablero.">
+          <div class="pan"><h3><span lang="es">El Jardín de Pólya</span><span lang="en">Pólya’s Garden</span></h3><p class="que"><span class="dist">Beta</span><span lang="es">El que tiene, recibe: cada ronda planta una flor en su columna.</span><span lang="en">The rich get richer: every round plants a flower in its column.</span></p></div></article>
+      </div>
+      <p class="show-mas"><span lang="es">Y además: el Gallinero, el Pozo, la Mina, el Baloto, el Bosque de Bambú, el Trapiche y el Observatorio.</span><span lang="en">Also: the Henhouse, the Well, the Mine, the Lottery, the Bamboo Grove, the Sugar Mill and the Observatory.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · EL EXPERIMENTO: LA APUESTA -->
+<section class="exp" id="experimento" data-ink="#0b0d12" data-bg="#a9cdf7">
+  <div class="grid">
+    <div class="exp-izq">
+      <h2 class="rv"><span lang="es">¿Cuál sale más?</span><span lang="en">Which comes up most?</span></h2>
+      <p class="q rv"><span lang="es">En el Jardín de Pólya cada flor que sale vuelve con otra de su color. Tras 7 sacadas, ¿cuántas rojas se habrán añadido con más frecuencia?</span><span lang="en">In Pólya’s Garden every flower drawn comes back with another of its colour. After 7 draws, how many red flowers will most often have been added?</span></p>
+      <div class="apuesta rv">
+        <p><span lang="es">Su apuesta, de 0 a 7:</span><span lang="en">Your bet, from 0 to 7:</span></p>
+        <div class="fichas" id="fichas" role="group" aria-label="0–7">
+          <button type="button" data-k="0" aria-pressed="false">0</button><button type="button" data-k="1" aria-pressed="false">1</button>
+          <button type="button" data-k="2" aria-pressed="false">2</button><button type="button" data-k="3" aria-pressed="false">3</button>
+          <button type="button" data-k="4" aria-pressed="false">4</button><button type="button" data-k="5" aria-pressed="false">5</button>
+          <button type="button" data-k="6" aria-pressed="false">6</button><button type="button" data-k="7" aria-pressed="false">7</button>
+        </div>
+        <button class="saltar" type="button" id="saltar"><span lang="es">Ver los datos sin apostar</span><span lang="en">Show the data without betting</span></button>
+        <p class="veredicto" id="veredicto" aria-live="polite"></p>
+      </div>
+    </div>
+    <div class="grafica rv">
+      <div class="leyenda"><span><i class="ly-bar"></i><span lang="es">Contado en 18 rondas</span><span lang="en">Counted in 18 rounds</span></span><span><i class="ly-line"></i><span lang="es">Esperado (Pólya)</span><span lang="en">Expected (Pólya)</span></span><span><i class="ly-dot"></i><span lang="es">Con una moneda fija</span><span lang="en">With a fixed coin</span></span></div>
+      <svg id="polya" viewBox="0 0 560 300" role="img" aria-labelledby="polya-t"><title id="polya-t">18 rondas del 23 de octubre de 2026. Rojas añadidas de 0 a 7: 3, 4, 2, 1, 3, 1, 1, 3 rondas. Pólya espera 2,25 en cada valor; una moneda fija esperaría casi todo en el centro.</title></svg>
+    </div>
+    <div class="cifras">
+      <div class="rv"><b>1/8</b><span lang="es">la probabilidad de cada valor: todos los finales valen lo mismo</span><span lang="en">the chance of each value: every ending is equally likely</span></div>
+      <div class="rv"><b>p = 0,57</b><span lang="es">contra Pólya: los datos le dan la razón</span><span lang="en">against Pólya: the data agrees</span></div>
+      <div class="rv"><b>χ² = 43</b><span lang="es">contra la moneda fija: descartada</span><span lang="en">against the fixed coin: ruled out</span></div>
+    </div>
+    <div class="tabla-wrap">
+      <details><summary><span lang="es">Ver la tabla</span><span lang="en">Show the table</span></summary>
+        <table id="polya-tabla"><thead><tr><th>K</th><th><span lang="es">Contado</span><span lang="en">Counted</span></th><th>Pólya</th><th><span lang="es">Moneda fija</span><span lang="en">Fixed coin</span></th></tr></thead><tbody></tbody></table>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · LA ESTACIÓN CURIE -->
+<section class="curie" id="curie" data-ink="#ffffff" data-bg="#0b0d12">
+  <h2 class="rv"><span lang="es">La estación Curie</span><span lang="en">The Curie station</span></h2>
+  <p class="frase rv"><span lang="es">Marie Curie contaba desintegraciones al azar: conteos de Poisson, como los brotes del Arrecife <span class="mini"><img src="img/isla7-arrecife.jpg" width="1400" height="788" alt=""></span>, y esperas exponenciales, como las del Bambú <span class="mini"><img src="img/lamina-bambu.jpg" width="1750" height="1000" alt=""></span>.</span><span lang="en">Marie Curie counted random decays: Poisson counts, like the Reef’s sprouts <span class="mini"><img src="img/isla7-arrecife.jpg" width="1400" height="788" alt=""></span>, and exponential waits, like the Bamboo’s <span class="mini"><img src="img/lamina-bambu.jpg" width="1750" height="1000" alt=""></span>.</span></p>
+  <p class="aclara rv"><span lang="es">Comparten la distribución, no la física: el juego no simula átomos. Justo por eso sirve para pensar en el modelo.</span><span lang="en">They share the distribution, not the physics: the game does not simulate atoms. That is exactly why it helps to think about the model.</span></p>
+</section>
+
+<!-- 8 · PROGRAMAS -->
+<section class="progs" id="programas" data-ink="#0b0d12" data-bg="#f2f3f5">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Tres formas de empezar</span><span lang="en">Three ways to start</span></h2>
+    <p class="q rv"><span lang="es">De una visita corta a un semestre de investigación. Cada una sube un escalón.</span><span lang="en">From a short visit to a term of research. Each one goes a step higher.</span></p>
+    <div class="barras">
+      <article class="prog b1"><h3><span lang="es">Demostración</span><span lang="en">Demo</span></h3><p class="dur"><span lang="es">60–90 minutos</span><span lang="en">60–90 minutes</span></p>
+        <p lang="es">Para directivos, docentes o un curso: una máquina en vivo, la prueba en el Observatorio y preguntas. Sin instalar nada.</p><p lang="en">For leaders, teachers or a class: one live machine, the test at the Observatory and questions. Nothing to install.</p></article>
+      <article class="prog b2"><h3><span lang="es">Formación docente</span><span lang="en">Teacher training</span></h3><p class="dur"><span lang="es">4 sesiones</span><span lang="en">4 sessions</span></p>
+        <p lang="es">Para docentes de matemáticas y ciencias que quieren llevar la estadística del tablero al experimento.</p><p lang="en">For math and science teachers who want to take statistics from the whiteboard to the experiment.</p>
+        <ul><li lang="es">Guías por grado y rúbricas</li><li lang="en">Grade guides and rubrics</li><li lang="es">Actividades listas para clase</li><li lang="en">Classroom-ready activities</li></ul></article>
+      <article class="prog b3"><h3><span lang="es">Semillero de investigación</span><span lang="en">Research club</span></h3><p class="dur"><span lang="es">8 sesiones · piloto</span><span lang="en">8 sessions · pilot</span></p>
+        <p lang="es">Los estudiantes plantean una hipótesis, diseñan el experimento, recogen datos y los ponen a prueba, pasando por las cuatro salas de la escuela.</p><p lang="en">Students state a hypothesis, design the experiment, collect data and test it, moving through the school’s four rooms.</p>
+        <ul><li lang="es">Para 9.º a 11.º</li><li lang="en">Grades 9 to 11</li><li lang="es">Un proyecto propio, listo para ferias y redes de semilleros</li><li lang="en">A project of their own, ready for science fairs</li><li lang="es">Aprendizaje medido antes y después</li><li lang="en">Learning measured before and after</li></ul></article>
+    </div>
+    <p class="nota"><span lang="es">En español o en inglés. La inversión se acuerda según el programa y el tamaño del grupo.</span><span lang="en">In Spanish or English. Pricing depends on the program and the group size.</span></p>
+  </div>
+</section>
+
+<!-- 9 · PREGUNTAS -->
+<section id="preguntas" data-ink="#0b0d12" data-bg="#f7dd47">
+  <div class="faq-head"><h2><span lang="es">Preguntas</span><span lang="en">Questions</span></h2></div>
+  <div class="bandas" data-ink="#ffffff" data-bg="#1423b8">
+    <div class="band grid"><h3><span lang="es">¿Hay que instalar algo en el colegio?</span><span lang="en">Does the school need to install anything?</span></h3><p lang="es">No. El tallerista lleva portátil y proyector; el colegio no compra licencias ni instala programas.</p><p lang="en">No. The facilitator brings a laptop and projector; the school buys no licences and installs nothing.</p></div>
+    <div class="band grid"><h3><span lang="es">¿Los estudiantes usan la inteligencia artificial?</span><span lang="en">Do students use the AI?</span></h3><p lang="es">No le escriben directamente. El grupo formula la pregunta y el tallerista se la lleva al experto; la respuesta se lee y se discute en clase.</p><p lang="en">They do not type to it. The group asks the question and the facilitator brings it to the expert; the answer is read and discussed in class.</p></div>
+    <div class="band grid"><h3><span lang="es">¿Qué pasa con los datos de los estudiantes?</span><span lang="en">What about students’ data?</span></h3><p lang="es">Nadie crea cuentas. Si se mide el aprendizaje con una prueba antes y después, se pide consentimiento informado y los datos se manejan según la Ley 1581 de 2012.</p><p lang="en">Nobody creates an account. If learning is measured with a test before and after, informed consent is requested and data is handled under Colombia’s Law 1581 of 2012.</p></div>
+    <div class="band grid"><h3><span lang="es">¿Hace falta saber jugar Minecraft?</span><span lang="en">Do you need to know Minecraft?</span></h3><p lang="es">No. Las máquinas se encienden con una palanca y las gráficas se leen en la pared del mundo.</p><p lang="en">No. The machines start with a lever and the charts are read on the world’s walls.</p></div>
+    <div class="band grid"><h3><span lang="es">¿En qué idioma?</span><span lang="en">In which language?</span></h3><p lang="es">Las sesiones, en español o en inglés. Las láminas del mundo hoy están en español.</p><p lang="en">Sessions in Spanish or English. The in-world boards are in Spanish for now.</p></div>
+  </div>
+</section>
+
+<!-- 10 · CONTACTO -->
+<section class="contacto" id="contacto" data-ink="#ffffff" data-bg="#17462a">
+  <div class="row"><h2>Diego Sanabria</h2></div>
+  <div class="row bio"><span class="txt"><span lang="es">Investigador en Tunja, Boyacá. Construye experimentos de ciencia dentro de Minecraft y los cuenta en video. </span><span lang="en">Researcher in Tunja, Colombia. He builds science experiments inside Minecraft and shares them on video. </span><span class="llenar" lang="es">[Formación, trayectoria y enlace al canal]</span><span class="llenar" lang="en">[Background, experience and channel link]</span></span></div>
+  <div class="row"><span>Tunja, Boyacá, Colombia</span></div>
+  <a class="row" href="#"><span>WhatsApp <span class="llenar">[número]</span></span></a>
+  <a class="row" href="#"><span><span lang="es">Correo</span><span lang="en">Email</span> <span class="llenar">[correo]</span></span></a>
+  <div class="row saludo"><span lang="es">Hablemos</span><span lang="en">Let’s talk</span><a class="btn" href="#" aria-label="Escribir"><span class="arr" aria-hidden="true">→</span></a></div>
+</section>
+
+</main>
+
+<!-- 11 · PIE -->
+<footer class="pie" data-ink="#ffffff" data-bg="#0b0d12">
+  <div class="bloques" id="bloques" aria-label="ScienceCraft"></div>
+  <div class="pie-bajo">
+    <nav aria-label="Pie">
+      <a href="#como"><span lang="es">Cómo se investiga</span><span lang="en">How it works</span></a>
+      <a href="#islas"><span lang="es">Las islas</span><span lang="en">The islands</span></a>
+      
+      <a href="#experimento"><span lang="es">El experimento</span><span lang="en">The experiment</span></a>
+      <a href="#curie"><span lang="es">La estación Curie</span><span lang="en">The Curie station</span></a>
+      <a href="#programas"><span lang="es">Programas</span><span lang="en">Programs</span></a>
+      <a href="#preguntas"><span lang="es">Preguntas</span><span lang="en">Questions</span></a>
+      <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+    </nav>
+    <p class="dato"><span lang="es">Las alturas de las letras siguen una binomial: la campana del Campanario. Todas las imágenes son capturas reales del mundo, octubre de 2026.</span><span lang="en">The letter heights follow a binomial: the Bell Tower’s curve. Every image is a real capture from the world, October 2026.</span></p>
+  </div>
+  <div class="pie-fin">
+    <span>© 2026 ScienceCraft · Diego Sanabria</span>
+    <span lang="es">No es un producto oficial de Minecraft. No está aprobado por Mojang ni por Microsoft ni asociado con ellos.</span>
+    <span lang="en">Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</span>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+document.documentElement.classList.add('js');
+const es = () => document.documentElement.dataset.lang !== 'en';
+
+// ---------- idioma (botón o ?lang=en) ----------
+(function () {
+  const html = document.documentElement, btn = document.getElementById('lang');
+  function poner(l) {
+    html.dataset.lang = l; html.lang = l; btn.textContent = l === 'es' ? 'English' : 'Español';
+    document.title = l === 'es' ? 'ScienceCraft · Probabilidad en vivo para colegios' : 'ScienceCraft · Live probability for schools';
+    try { localStorage.setItem('sc-lang', l); } catch (e) {}
+    if (window.__veredicto) window.__veredicto();
+  }
+  let g = null; try { g = localStorage.getItem('sc-lang'); } catch (e) {}
+  const q = new URLSearchParams(location.search).get('lang');
+  poner((q || g) === 'en' ? 'en' : 'es');
+  btn.addEventListener('click', () => poner(html.dataset.lang === 'es' ? 'en' : 'es'));
+})();
+
+// ---------- la cabecera toma la tinta del capítulo de abajo ----------
+(function () {
+  const top = document.getElementById('top');
+  const zonas = [...document.querySelectorAll('[data-ink]')];
+  function f() {
+    const y = 40; let ink = '#0b0d12', bg = 'transparent';
+    for (const z of zonas) { const r = z.getBoundingClientRect(); if (r.top <= y && r.bottom > y) { ink = z.dataset.ink; bg = z.dataset.bg || 'transparent'; } }
+    top.style.setProperty('--hdr', ink); top.style.setProperty('--hdrbg', bg);
+  }
+  addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
+})();
+
+// ---------- entradas escalonadas por sección, y el pie que crece ----------
+(function () {
+  const els = [...document.querySelectorAll('.rv, #bloques')];
+  if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+  const io = new IntersectionObserver(ents => {
+    ents.forEach(en => {
+      if (!en.isIntersecting) return;
+      const hermanos = [...en.target.parentElement.querySelectorAll(':scope > .rv')];
+      const i = Math.max(0, hermanos.indexOf(en.target));
+      en.target.style.transitionDelay = (i * 75) + 'ms';
+      en.target.classList.add('in'); io.unobserve(en.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(e => io.observe(e));
+})();
+
+// ---------- las islas: las tarjetas cruzan la foto quieta (solo escritorio) ----------
+(function () {
+  const wrap = document.getElementById('showWrap'), track = document.getElementById('track');
+  const mq = matchMedia('(min-width: 761px) and (prefers-reduced-motion: no-preference)');
+  let viaje = 0;
+  function medir() {
+    if (!mq.matches) { wrap.style.height = ''; track.style.transform = ''; return; }
+    viaje = Math.max(0, track.scrollWidth - innerWidth);
+    wrap.style.height = (innerHeight + viaje * 0.4) + 'px';
+    mover();
+  }
+  function mover() {
+    if (!mq.matches) return;
+    const r = wrap.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, -r.top / Math.max(1, viaje * 0.4)));
+    track.style.transform = 'translateX(' + (-p * viaje) + 'px)';
+  }
+  addEventListener('scroll', mover, { passive: true }); addEventListener('resize', medir);
+  addEventListener('load', medir); mq.addEventListener('change', medir); medir();
+})();
+
+// ---------- el pie: «ScienceCraft» en bloques con alturas de una binomial ----------
+(function () {
+  const caja = document.getElementById('bloques'), letras = 'ScienceCraft'.split('');
+  const colores = ['#f7dd47', '#a9cdf7', '#1fc27a', '#f2f3f5'];
+  const comb = (n, k) => { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; };
+  const max = comb(11, 5);
+  letras.forEach((c, k) => {
+    const s = document.createElement('span');
+    s.textContent = c; s.setAttribute('aria-hidden', 'true');
+    s.style.height = (58 + 42 * comb(11, k) / max) + '%';
+    s.style.background = colores[k % colores.length];
+    s.style.transitionDelay = (k * 50) + 'ms';
+    caja.appendChild(s);
+  });
+})();
+
+// ---------- el experimento: apostar y ver los datos reales ----------
+(function () {
+  const obs = [3, 4, 2, 1, 3, 1, 1, 3], n = 18;
+  const comb = (a, b) => { let r = 1; for (let i = 1; i <= b; i++) r = r * (a - b + i) / i; return r; };
+  const polya = n / 8, moneda = obs.map((_, k) => n * comb(7, k) / 128);
+  const svg = document.getElementById('polya'), NS = 'http://www.w3.org/2000/svg';
+  const W = 560, H = 300, L = 30, R = 8, T = 22, B = 36, ymax = 6, pw = W - L - R, ph = H - T - B, bw = pw / 8;
+  const y = v => T + ph - ph * v / ymax;
+  const el = (tag, at, txt) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+  for (let v = 0; v <= ymax; v += 2) el('text', { x: L - 10, y: y(v) + 4, 'text-anchor': 'end' }, v);
+  const tip = document.getElementById('tip');
+  const fmt = v => v.toFixed(2).replace('.', es() ? ',' : '.');
+  obs.forEach((o, k) => {
+    const x = L + k * bw + 8, w = bw - 16;
+    el('rect', { x, y: y(o), width: w, height: y(0) - y(o), fill: '#1423b8', class: 'barra' });
+    el('text', { x: x + w / 2, y: y(o) - 8, 'text-anchor': 'middle', class: 'val' }, o);
+    el('text', { x: L + k * bw + bw / 2, y: H - 12, 'text-anchor': 'middle' }, k);
+    const hit = el('rect', { x: L + k * bw, y: T, width: bw, height: ph, fill: 'transparent' });
+    hit.addEventListener('mousemove', ev => {
+      if (svg.classList.contains('oculta')) return;
+      tip.innerHTML = es() ? `<b>K = ${k}</b><br>Contado: ${o}<br>Pólya: ${fmt(polya)}<br>Moneda fija: ${fmt(moneda[k])}`
+                           : `<b>K = ${k}</b><br>Counted: ${o}<br>Pólya: ${fmt(polya)}<br>Fixed coin: ${fmt(moneda[k])}`;
+      tip.style.left = (ev.clientX + 14) + 'px'; tip.style.top = (ev.clientY - 10) + 'px'; tip.style.opacity = 1;
+    });
+    hit.addEventListener('mouseleave', () => tip.style.opacity = 0);
+  });
+  el('rect', { x: L, y: y(polya) - 1.5, width: pw, height: 3, fill: '#0b0d12' });
+  moneda.forEach((m, k) => el('circle', { cx: L + k * bw + bw / 2, cy: y(m), r: 6, fill: '#ffffff', stroke: '#0b0d12', 'stroke-width': 3, 'pointer-events': 'none' }));
+  el('rect', { x: L, y: y(0), width: pw, height: 2, fill: '#0b0d12' });
+  el('text', { x: L + pw / 2, y: H, 'text-anchor': 'middle' }, 'K');
+  // la tabla se arma al abrirla (cerrada no lleva números sueltos en la página)
+  const tb = document.querySelector('#polya-tabla tbody');
+  tb.closest('details').addEventListener('toggle', function () {
+    if (!this.open || tb.children.length) return;
+    obs.forEach((o, k) => { const tr = document.createElement('tr'); tr.innerHTML = `<td>${k}</td><td>${o}</td><td>${fmt(polya)}</td><td>${fmt(moneda[k])}</td>`; tb.appendChild(tr); });
+  });
+
+  // con script las barras esperan la apuesta; sin script se ven desde el principio
+  svg.classList.add('oculta');
+  const out = document.getElementById('veredicto');
+  let elegido = null, visto = false;
+  function veredicto() {
+    if (!visto) { out.textContent = ''; return; }
+    const masK = obs.indexOf(Math.max(...obs));
+    if (elegido === null) {
+      out.textContent = es() ? `La que más salió fue ${masK} (4 de 18). Con Pólya, todas valen 1/8: lo deciden las primeras sacadas.`
+                             : `The most frequent was ${masK} (4 of 18). With Pólya every value is 1/8: the first draws decide.`;
+    } else {
+      const v = obs[elegido];
+      out.textContent = es()
+        ? `Usted apostó por ${elegido}: salió ${v} ${v === 1 ? 'vez' : 'veces'} de 18. Una moneda fija diría ${fmt(moneda[elegido])}; Pólya dice 2,25 para todos, y los datos son compatibles con eso (p = 0,57).`
+        : `You bet on ${elegido}: it came up ${v} ${v === 1 ? 'time' : 'times'} out of 18. A fixed coin would predict ${fmt(moneda[elegido])}; Pólya says 2.25 for every value, and the data is consistent with it (p = 0.57).`;
+    }
+  }
+  window.__veredicto = veredicto;
+  function mostrar() { visto = true; svg.classList.remove('oculta'); veredicto(); }
+  document.querySelectorAll('#fichas button').forEach(b => b.addEventListener('click', () => {
+    elegido = +b.dataset.k;
+    document.querySelectorAll('#fichas button').forEach(o => o.setAttribute('aria-pressed', o === b ? 'true' : 'false'));
+    mostrar();
+  }));
+  document.getElementById('saltar').addEventListener('click', () => { elegido = null; mostrar(); });
+})();
+</script>
+</body>
+</html>
