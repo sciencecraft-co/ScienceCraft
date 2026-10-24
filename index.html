@@ -309,12 +309,17 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   .como { padding: 60px 0 70px; }
   .como .grid > * { grid-column: 1 / 13 !important; grid-row: auto !important; }
   .como .intro { margin: 16px 0 24px; }
-  .t1 { height: 46vw; } .t2 { height: 56vw; } .t3 { height: 66vw; } .t4 { height: 76vw; }
-  .como-pie { order: 9; flex-direction: column; align-items: flex-start; margin-top: 10px; }
-  .paso { margin-bottom: 26px; }
-  .como .grid { display: flex; flex-direction: column; align-items: stretch; }
-  .t1 { order: 1; } .p1 { order: 2; } .t2 { order: 3; } .p2 { order: 4; } .t3 { order: 5; } .p3 { order: 6; } .t4 { order: 7; } .p4 { order: 8; }
-  .como h2 { order: -2; } .como .intro { order: -1; }
+  /* cada etapa en una fila: la figura a la izquierda y su texto al lado (antes una casi pantalla por experto) */
+  .como .grid { display: grid; grid-template-columns: 34vw 1fr; column-gap: 16px; row-gap: 18px; align-items: center; }
+  .como .grid > h2 { grid-column: 1 / -1 !important; grid-row: 1 !important; }
+  .como .grid > .intro { grid-column: 1 / -1 !important; grid-row: 2 !important; max-width: none; }
+  .como .grid > .tile { grid-column: 1 !important; height: 40vw; }
+  .como .grid > .paso { grid-column: 2 !important; margin: 0; }
+  .como .grid > .t1, .como .grid > .p1 { grid-row: 3 !important; } .como .grid > .t2, .como .grid > .p2 { grid-row: 4 !important; }
+  .como .grid > .t3, .como .grid > .p3 { grid-row: 5 !important; } .como .grid > .t4, .como .grid > .p4 { grid-row: 6 !important; }
+  .paso h3 { font-size: 19px; }
+  .paso p { font-size: 15px; margin-top: 4px; }
+  .como .grid > .como-pie { grid-column: 1 / -1 !important; grid-row: 7 !important; flex-direction: column; align-items: flex-start; margin-top: 10px; }
 
   .trece { display: block; min-height: 0; padding: 80px var(--m) 60px; }
   .trece h2 { font-size: 22vw; }
@@ -339,8 +344,10 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   .exp { padding: 90px 0 70px; }
   .fichas { grid-template-columns: repeat(4, 1fr); }
   .cifras { grid-template-columns: 1fr; margin-top: 50px; row-gap: 28px; }
-  .cifras div { display: grid; grid-template-columns: 9ch 1fr; gap: 16px; align-items: center; }
-  .cifras span { margin-top: 0; }
+  /* la cifra entera en una línea y su explicación debajo («p =» y «0,57» quedaban partidos) */
+  .cifras div { display: block; padding: 0; }
+  .cifras b { white-space: nowrap; font-size: 48px; }
+  .cifras span { margin-top: 6px; }
 
   .curie { padding: 90px var(--m); min-height: 0; }
   .curie .frase, .curie .aclara { width: auto; margin-left: 0; }
@@ -349,7 +356,7 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   .progs { padding: 90px 0 70px; }
   .progs h2, .progs .q, .progs .nota { grid-column: 1 / 13; }
   .barras { grid-template-columns: 1fr; }
-  .b1 { height: auto; min-height: 260px; } .b2 { height: auto; min-height: 300px; } .b3 { height: auto; min-height: 340px; }
+  .b1, .b2, .b3 { height: auto; min-height: 0; }
 
   .faq-head { min-height: 30svh; }
   .faq-head h2 { font-size: 13vw; }
@@ -364,7 +371,13 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
 
   .bloques { height: 22svh; min-height: 140px; }
   .bloques span { font-size: 7vw; }
-  .pie-bajo nav { grid-column: 1 / 13; grid-template-columns: 1fr 1fr; }
+  .pie-bajo nav { grid-column: 1 / 13; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+  /* zonas táctiles de 44 px como mínimo */
+  .pie-bajo nav a { display: flex; align-items: center; min-height: 44px; }
+  .mark, #lang { min-height: 46px; display: flex; align-items: center; }
+  #lang { padding: 0 4px; }
+  .saltar { min-height: 44px; padding: 10px 0; }
+  summary { min-height: 44px; display: flex; align-items: center; }
   .pie-bajo .dato { grid-column: 1 / 13; margin-top: 20px; }
 }
 
@@ -648,6 +661,8 @@ const es = () => document.documentElement.dataset.lang !== 'en';
   function f() {
     const y = 40; let ink = '#0b0d12', bg = 'transparent';
     for (const z of zonas) { const r = z.getBoundingClientRect(); if (r.top <= y && r.bottom > y) { ink = z.dataset.ink; bg = z.dataset.bg || 'transparent'; } }
+    // teléfono: la portada no tiene fondo propio y, al bajar, el encabezado transparente quedaba encima del texto
+    if (bg === 'transparent' && scrollY > 40 && innerWidth <= 760) { bg = '#f2f3f5'; ink = '#0b0d12'; }
     top.style.setProperty('--hdr', ink); top.style.setProperty('--hdrbg', bg);
   }
   addEventListener('scroll', f, { passive: true }); addEventListener('resize', f); f();
