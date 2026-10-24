@@ -192,6 +192,20 @@ details th:first-child, details td:first-child { text-align: left; }
 .comp h3 { font-size: clamp(26px, 3.2vw, 48px); line-height: 1.05; }
 .comp p { font-size: var(--step-body); line-height: 1.45; color: #d8eadd; }
 
+/* el recorrido: cuatro fotos del mundo */
+.recorrido { background: var(--sky); color: var(--black); padding: 160px 0 150px; }
+.recorrido h2 { grid-column: 1 / 8; font-size: var(--step-head); }
+.recorrido .q { grid-column: 1 / 8; margin-top: 22px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; }
+.fotos { grid-column: 1 / 13; margin-top: 64px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px var(--gap); }
+.fotos figure { margin: 0; }
+.fotos img { display: block; width: 100%; height: auto; aspect-ratio: 1400 / 788; object-fit: cover; }
+.fotos figcaption { margin-top: 14px; font-size: 16px; line-height: 1.45; max-width: 560px; }
+@media (max-width: 760px) {
+  .recorrido { padding: 90px 0 80px; }
+  .recorrido h2, .recorrido .q { grid-column: 1 / 13; }
+  .fotos { grid-template-columns: 1fr; gap: 32px; }
+}
+
 /* evaluación */
 .evaluacion { background: var(--yellow); color: var(--yellow-ink); padding: 160px 0 150px; }
 .evaluacion h2 { grid-column: 1 / 7; font-size: var(--step-head); }
@@ -505,13 +519,27 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   </div>
 </section>
 
+<!-- 6b · EL RECORRIDO -->
+<section class="recorrido" id="recorrido" data-ink="#0b0d12" data-bg="#a9cdf7">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Un camino que se recorre solo</span><span lang="en">A path you can follow alone</span></h2>
+    <p class="q rv"><span lang="es">Dentro del mundo, cada equipo sabe siempre dónde está, qué hacer y cómo le va.</span><span lang="en">Inside the world, every team always knows where it is, what to do and how it is doing.</span></p>
+    <div class="fotos">
+      <figure><img src="img/recorrido-guia.jpg" width="1400" height="788" loading="lazy" alt="Tablero dentro de una casa con el mapa del anillo, las cinco unidades y las ocho sesiones."><figcaption><span lang="es">La entrada: el mapa del anillo, las cinco unidades y las ocho sesiones. Al lado, la guía, las bitácoras y la prueba.</span><span lang="en">The entrance: the map of the ring, the five units and the eight sessions. Next to it, the guide, the logbooks and the test.</span></figcaption></figure>
+      <figure><img src="img/recorrido-hito.jpg" width="1400" height="788" loading="lazy" alt="Poste amarillo con un letrero «Unidad 1, isla 2 de 4, Gallinero» junto a un atril con un libro."><figcaption><span lang="es">En cada isla, un hito dice la unidad y qué sigue. Al lado, la ficha: la pregunta, el objetivo y la actividad.</span><span lang="en">On every island, a marker tells the unit and what comes next. Beside it, the worksheet: question, goal and activity.</span></figcaption></figure>
+      <figure><img src="img/recorrido-progreso.jpg" width="1400" height="788" loading="lazy" alt="Tablero con una cuadrícula de ocho equipos por trece islas."><figcaption><span lang="es">Cada equipo apuesta antes de medir, con un clic en el libro, y el tablero muestra cuánto ha avanzado.</span><span lang="en">Each team bets before measuring, with a click in the book, and the board shows how far it has come.</span></figcaption></figure>
+      <figure><img src="img/recorrido-muro.jpg" width="1400" height="788" loading="lazy" alt="Muro de piedra con un letrero por equipo bajo el título «Muro de hallazgos»."><figcaption><span lang="es">Al final, cada equipo deja su hallazgo en el muro del Observatorio, y se discuten todos juntos.</span><span lang="en">At the end, each team leaves its finding on the Observatory wall, and they are discussed together.</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <!-- 7 · EVALUACIÓN -->
 <section class="evaluacion" id="evaluacion" data-ink="#0b0d12" data-bg="#f7dd47">
   <div class="grid">
     <h2 class="rv"><span lang="es">Cómo se evalúa</span><span lang="en">How it is assessed</span></h2>
     <p class="q rv"><span lang="es">El aprendizaje se mide, no se supone.</span><span lang="en">Learning is measured, not assumed.</span></p>
     <div class="evs">
-      <div class="ev rv"><h3><span lang="es">Antes y después</span><span lang="en">Before and after</span></h3><p><span lang="es">La misma prueba corta al empezar y al terminar (12 preguntas, 30 minutos) mide cuánto se aprendió.</span><span lang="en">The same short test at the start and at the end (12 questions, 30 minutes) measures how much was learned.</span></p></div>
+      <div class="ev rv"><h3><span lang="es">Antes y después</span><span lang="en">Before and after</span></h3><p><span lang="es">La misma prueba corta al empezar y al terminar (12 preguntas, 30 minutos) mide cuánto se aprendió. Va en papel, y una versión corta también dentro del mundo.</span><span lang="en">The same short test at the start and at the end (12 questions, 30 minutes) measures how much was learned. It is on paper, and a short version also lives inside the world.</span></p></div>
       <div class="ev rv"><h3><span lang="es">Bitácora</span><span lang="en">Logbook</span></h3><p><span lang="es">Cada experimento queda registrado: la pregunta, la apuesta, los datos y la conclusión.</span><span lang="en">Every experiment is recorded: the question, the bet, the data and the conclusion.</span></p></div>
       <div class="ev rv"><h3><span lang="es">Rúbrica</span><span lang="en">Rubric</span></h3><p><span lang="es">Cinco criterios con cuatro niveles (pregunta, medición, análisis, uso de la IA y comunicación), convertibles a la escala de 1,0 a 5,0.</span><span lang="en">Five criteria with four levels (question, measurement, analysis, use of AI and communication), convertible to the 1.0–5.0 school scale.</span></p></div>
       <div class="ev rv"><h3><span lang="es">Producto final</span><span lang="en">Final product</span></h3><p><span lang="es">Un proyecto con datos propios, listo para una feria de ciencia o una red de semilleros. El colegio recibe los resultados del grupo.</span><span lang="en">A project with the group’s own data, ready for a science fair or a research network. The school receives the group’s results.</span></p></div>
@@ -570,6 +598,7 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
       <a href="#competencias"><span lang="es">Competencias</span><span lang="en">Competencies</span></a>
       <a href="#como"><span lang="es">Cómo se aprende</span><span lang="en">How they learn</span></a>
       <a href="#islas"><span lang="es">Unidades</span><span lang="en">Units</span></a>
+      <a href="#recorrido"><span lang="es">Recorrido</span><span lang="en">Route</span></a>
       <a href="#evaluacion"><span lang="es">Evaluación</span><span lang="en">Assessment</span></a>
       <a href="#programas"><span lang="es">Programas</span><span lang="en">Programs</span></a>
       <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
