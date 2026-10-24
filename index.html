@@ -210,6 +210,8 @@ a.row:hover { padding-left: calc(var(--m) + 18px); }
 .row.bio { min-height: 0; padding-top: 30px; padding-bottom: 34px; font-size: var(--step-lead); font-weight: 500; line-height: 1.35; letter-spacing: 0; }
 .row.bio .txt { max-width: 62ch; }
 .row.saludo { gap: 24px; align-items: center; padding-top: 30px; }
+.row.correo { font-size: clamp(22px, 3.6vw, 56px); overflow-wrap: anywhere; }
+.row.correo .etq { display: block; font-size: var(--step-lead); font-weight: 500; margin-bottom: 8px; }
 .row.saludo .btn { min-height: 0; height: .9em; width: .9em; padding: 0; justify-content: center; font-size: 1em; }
 
 /* 11 · pie: el nombre construido con bloques (alturas de una campana) */
@@ -305,6 +307,7 @@ a.row:hover { padding-left: calc(var(--m) + 18px); }
   .band h3 { margin-bottom: 12px; }
 
   .row { font-size: 9.6vw; min-height: 84px; padding-bottom: 16px; }
+  .row.correo { font-size: 5.4vw; }
   .row.saludo { background: var(--accent) !important; color: var(--accent-ink); justify-content: space-between; }
   .row.saludo .btn { background: var(--grass); color: #fff; height: 56px; width: 56px; font-size: 26px; }
 
@@ -490,8 +493,8 @@ a.row:hover { padding-left: calc(var(--m) + 18px); }
   <div class="row bio"><span class="txt"><span lang="es">Investigador en Tunja, Boyacá. Construye experimentos de ciencia dentro de Minecraft y los cuenta en video. </span><span lang="en">Researcher in Tunja, Colombia. He builds science experiments inside Minecraft and shares them on video. </span><span class="llenar" lang="es">[Formación, trayectoria y enlace al canal]</span><span class="llenar" lang="en">[Background, experience and channel link]</span></span></div>
   <div class="row"><span>Tunja, Boyacá, Colombia</span></div>
   <a class="row" href="#"><span>WhatsApp <span class="llenar">[número]</span></span></a>
-  <a class="row" href="#"><span><span lang="es">Correo</span><span lang="en">Email</span> <span class="llenar">[correo]</span></span></a>
-  <div class="row saludo"><span lang="es">Hablemos</span><span lang="en">Let’s talk</span><a class="btn" href="#" aria-label="Escribir"><span class="arr" aria-hidden="true">→</span></a></div>
+  <a class="row correo" href="mailto:diego.sanabria02@uptc.edu.co?subject=ScienceCraft%20%C2%B7%20demostraci%C3%B3n"><span><span class="etq"><span lang="es">Correo</span><span lang="en">Email</span></span> diego.sanabria02@uptc.edu.co</span></a>
+  <div class="row saludo"><span lang="es">Hablemos</span><span lang="en">Let’s talk</span><a class="btn" href="mailto:diego.sanabria02@uptc.edu.co?subject=ScienceCraft%20%C2%B7%20demostraci%C3%B3n" aria-label="Escribir un correo"><span class="arr" aria-hidden="true">→</span></a></div>
 </section>
 
 </main>
