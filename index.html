@@ -213,6 +213,9 @@ a.row:hover { padding-left: calc(var(--m) + 18px); }
 .row.correo { font-size: clamp(22px, 3.6vw, 56px); overflow-wrap: anywhere; }
 .row.correo .etq { display: block; font-size: var(--step-lead); font-weight: 500; margin-bottom: 8px; }
 .row.saludo .btn { min-height: 0; height: .9em; width: .9em; padding: 0; justify-content: center; font-size: 1em; }
+.row.saludo .por { display: block; font-size: var(--step-lead); font-weight: 500; margin-top: 10px; letter-spacing: 0; }
+a.row.saludo:hover .btn { background: #2ad889; }
+a.row.saludo:hover .arr { transform: translateX(4px); }
 
 /* 11 · pie: el nombre construido con bloques (alturas de una campana) */
 .pie { background: var(--black); color: var(--black-ink); padding: 80px var(--m) 36px; }
@@ -492,7 +495,7 @@ a.row:hover { padding-left: calc(var(--m) + 18px); }
   <div class="row"><h2>Diego Sanabria</h2></div>
   <div class="row"><span>Tunja, Boyacá, Colombia</span></div>
   <a class="row correo" href="mailto:diego.sanabria02@uptc.edu.co?subject=ScienceCraft%20%C2%B7%20demostraci%C3%B3n"><span><span class="etq"><span lang="es">Correo</span><span lang="en">Email</span></span> diego.sanabria02@uptc.edu.co</span></a>
-  <div class="row saludo"><span lang="es">Hablemos</span><span lang="en">Let’s talk</span><a class="btn" href="mailto:diego.sanabria02@uptc.edu.co?subject=ScienceCraft%20%C2%B7%20demostraci%C3%B3n" aria-label="Escribir un correo"><span class="arr" aria-hidden="true">→</span></a></div>
+  <a class="row saludo" href="https://wa.me/message/MJRVFI4TOE6ML1" target="_blank" rel="noopener" aria-label="Hablemos por WhatsApp"><span><span lang="es">Hablemos</span><span lang="en">Let’s talk</span><span class="por"><span lang="es">por WhatsApp</span><span lang="en">on WhatsApp</span></span></span><span class="btn" aria-hidden="true"><span class="arr">→</span></span></a>
 </section>
 
 </main>
