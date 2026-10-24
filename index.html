@@ -286,7 +286,12 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
 @media (max-width: 1000px) {
   .prog h3 { font-size: var(--step-lead); }
   .prog { padding: 22px; }
-  .panel .corto { display: block; position: absolute; left: 28px; top: calc(13% + 2 * 0.9 * 7.2vw + 24px); font-size: 20px; font-weight: 500; color: var(--paper-ink); max-width: 26ch; background: var(--paper); padding: 10px 14px; }
+  /* título, recuadro y botón en columna sobre la foto: el recuadro va siempre debajo del título, ocupe este dos o tres
+     líneas (antes se calculaba su altura para dos y, con la letra agrandada del teléfono, tapaba la tercera) */
+  .panel { display: flex; flex-direction: column; align-items: flex-start; padding: 12% 28px 36px; }
+  .panel h1, .panel .corto, .panel .btn { position: relative; left: auto; right: auto; top: auto; bottom: auto; }
+  .panel .corto { display: block; margin-top: 24px; font-size: 20px; font-weight: 500; color: var(--paper-ink); max-width: 26ch; background: var(--paper); padding: 10px 14px; }
+  .panel .btn { margin-top: auto; }
   .panel .apoyo { display: none; }
   .exp-izq, .grafica { grid-column: 1 / 13; }
   .grafica { margin-top: 50px; }
@@ -297,11 +302,12 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   .top { padding: 0 26px; height: 56px; }
   .hero { padding: 8px; }
   .hero-in { grid-template-columns: 1fr; height: auto; min-height: 0; }
-  .panel { height: 64svh; min-height: 460px; }
-  .panel h1 { font-size: 13vw; left: 20px; right: 20px; top: 14%; }
-  .panel .corto { left: 20px; top: calc(14% + 2 * 0.9 * 13vw + 16px); font-size: 18px; }
+  .panel { height: auto; min-height: max(64svh, 460px); padding: 14% 20px 22px; }
+  .panel h1 { font-size: 13vw; }
+  .panel .corto { margin-top: 16px; font-size: 18px; }
   .panel .apoyo { display: none; }
-  .panel .btn { left: 20px; right: auto; bottom: 22px; }
+  .panel .corto { margin-bottom: 28px; }
+  .panel .btn { margin-top: auto; }
   .swatches { grid-template-rows: none; }
   .swatches a { padding: 15px 20px; font-size: 15px; }
   .apoyo-movil { display: block; background: var(--yellow); color: var(--yellow-ink); padding: 40px var(--m) 0; font-size: 18px; font-weight: 500; line-height: 1.4; }
