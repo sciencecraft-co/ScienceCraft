@@ -177,6 +177,40 @@ details th:first-child, details td:first-child { text-align: left; }
 .mini img { width: 100%; height: 100%; object-fit: cover; }
 .curie .aclara { margin: 6vh 0 0 auto; width: min(1000px, 72vw); font-size: var(--step-body); color: var(--soft-on-dark); }
 
+
+/* propósito */
+.proposito { background: var(--black); color: var(--black-ink); padding: 160px 0 150px; }
+.proposito h2 { grid-column: 1 / 8; font-size: var(--step-head); }
+.proposito .frase { grid-column: 1 / 10; margin-top: 40px; font-size: clamp(24px, 2.5vw, 36px); font-weight: 500; line-height: 1.2; }
+.proposito .nota { grid-column: 1 / 8; margin-top: 28px; font-size: var(--step-lead); color: var(--soft-on-dark); line-height: 1.3; }
+
+/* competencias: una lista en letra grande */
+.competencias { background: var(--grass); color: var(--grass-ink); padding: 160px 0 150px; }
+.competencias h2 { grid-column: 1 / 8; font-size: var(--step-head); }
+.competencias .lista { grid-column: 1 / 13; margin-top: 56px; display: grid; gap: 34px; }
+.comp { display: grid; grid-template-columns: 7fr 5fr; gap: 24px 40px; align-items: baseline; }
+.comp h3 { font-size: clamp(26px, 3.2vw, 48px); line-height: 1.05; }
+.comp p { font-size: var(--step-body); line-height: 1.45; color: #d8eadd; }
+
+/* evaluación */
+.evaluacion { background: var(--yellow); color: var(--yellow-ink); padding: 160px 0 150px; }
+.evaluacion h2 { grid-column: 1 / 7; font-size: var(--step-head); }
+.evaluacion .q { grid-column: 7 / 13; align-self: end; font-size: var(--step-lead); font-weight: 500; }
+.evs { grid-column: 1 / 13; margin-top: 64px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px var(--gap); }
+.ev h3 { font-size: var(--step-lead); line-height: 1.1; }
+.ev p { margin-top: 12px; font-size: 16px; line-height: 1.45; }
+@media (max-width: 900px) {
+  .comp { grid-template-columns: 1fr; gap: 8px; }
+  .evs { grid-template-columns: 1fr 1fr; }
+  .evaluacion .q { grid-column: 1 / 13; margin-top: 16px; }
+}
+@media (max-width: 760px) {
+  .proposito, .competencias, .evaluacion { padding: 90px 0 80px; }
+  .proposito h2, .proposito .frase, .proposito .nota, .competencias h2 { grid-column: 1 / 13; }
+  .proposito .frase { font-size: var(--step-lead); }
+  .evs { grid-template-columns: 1fr; gap: 26px; }
+}
+
 /* 8 · programas: baldosas que suben como barras */
 .progs { background: var(--paper); padding: 160px 0 140px; }
 .progs h2 { grid-column: 1 / 8; font-size: var(--step-head); }
@@ -345,75 +379,26 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
       <img src="img/portada-l.jpg" width="1640" height="950" alt="Vista aérea de un castillo rodeado por un anillo de trece islas flotantes unidas por puentes de madera.">
       <h1><span lang="es">Un laboratorio<br>en Minecraft</span><span lang="en">A lab inside<br>Minecraft</span></h1>
       <p class="corto"><span lang="es">Estadística e investigación para colegios.</span><span lang="en">Statistics and research for schools.</span></p>
-      <p class="apoyo"><span lang="es">ScienceCraft enseña estadística e investigación a colegios: trece islas, cada una una máquina de azar con su gráfica en vivo.</span><span lang="en">ScienceCraft teaches statistics and research to schools: thirteen islands, each a machine of chance with its own live chart.</span></p>
+      <p class="apoyo"><span lang="es">ScienceCraft enseña estadística e investigación a estudiantes de 9.º a 11.º y a sus docentes, en el colegio: el tallerista lleva todo el equipo.</span><span lang="en">ScienceCraft teaches statistics and research to students in grades 9 to 11 and their teachers, at school: the facilitator brings all the equipment.</span></p>
       <a class="btn" href="#contacto"><span lang="es">Agendar una demostración</span><span lang="en">Book a demo</span> <span class="arr" aria-hidden="true">→</span></a>
     </div>
     <nav class="swatches" aria-label="Capítulos">
-      <a class="sw-yellow" href="#como"><span lang="es">Cómo se investiga</span><span lang="en">How it works</span></a>
+      <a class="sw-yellow" href="#como"><span lang="es">Cómo se aprende</span><span lang="en">How they learn</span></a>
       <a class="sw-sky" href="#experimento"><span lang="es">Apueste</span><span lang="en">Place a bet</span></a>
-      <a class="sw-blue" href="#islas"><span lang="es">Las islas</span><span lang="en">The islands</span></a>
+      <a class="sw-blue" href="#islas"><span lang="es">Unidades</span><span lang="en">Units</span></a>
       <a class="sw-grass" href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
-      <a class="sw-black" href="#curie"><span lang="es">Estación Curie</span><span lang="en">Curie station</span></a>
+      <a class="sw-black" href="#proposito"><span lang="es">Para qué</span><span lang="en">Purpose</span></a>
     </nav>
   </div>
-  <p class="apoyo-movil"><span lang="es">ScienceCraft enseña estadística e investigación a colegios: trece islas, cada una una máquina de azar con su gráfica en vivo.</span><span lang="en">ScienceCraft teaches statistics and research to schools: thirteen islands, each a machine of chance with its own live chart.</span></p>
+  <p class="apoyo-movil"><span lang="es">ScienceCraft enseña estadística e investigación a estudiantes de 9.º a 11.º y a sus docentes, en el colegio: el tallerista lleva todo el equipo.</span><span lang="en">ScienceCraft teaches statistics and research to students in grades 9 to 11 and their teachers, at school: the facilitator brings all the equipment.</span></p>
 </section>
 
-<!-- 2 · CÓMO SE INVESTIGA: las cuatro etapas, cada una con su experto -->
-<section class="como" id="como" data-ink="#0b0d12" data-bg="#f7dd47">
+<!-- 2 · PROPÓSITO -->
+<section class="proposito" id="proposito" data-ink="#ffffff" data-bg="#0b0d12">
   <div class="grid">
-    <h2 class="rv"><span lang="es">Cómo se investiga</span><span lang="en">How research works</span></h2>
-    <p class="intro rv"><span lang="es">Cuatro etapas del método, una en cada sala del castillo. En cada una espera un experto de inteligencia artificial.</span><span lang="en">Four stages of the method, one in each room of the castle. In each one an artificial-intelligence expert is waiting.</span></p>
-    <div class="tile t1 rv"><img src="img/experta-soledad.png" width="300" height="450" loading="lazy" alt="Soledad, figura de bloques con vestido azul de cuello alto y moño."></div>
-    <div class="tile t2 rv"><img src="img/experta-darwin.png" width="300" height="450" loading="lazy" alt="Darwin, figura de bloques calva con barba blanca y abrigo oscuro."></div>
-    <div class="tile t3 rv"><img src="img/experta-angela.png" width="300" height="450" loading="lazy" alt="Ángela, figura de bloques con bata de laboratorio, gafas doradas y canas cortas."></div>
-    <div class="tile t4 rv"><img src="img/experta-curie.png" width="300" height="450" loading="lazy" alt="Marie Curie, figura de bloques con vestido negro de cuello alto y un frasco de radio."></div>
-    <div class="paso p1 rv"><h3><span lang="es">Biblioteca · Soledad</span><span lang="en">Library · Soledad</span></h3><p lang="es">¿Qué se sabe ya? Busca, lee y cita artículos para que la pregunta parta de lo conocido.</p><p lang="en">What is already known? She finds, reads and cites papers so the question starts from what is known.</p></div>
-    <div class="paso p2 rv"><h3><span lang="es">Taller · Darwin</span><span lang="en">Workshop · Darwin</span></h3><p lang="es">Ordena los datos, como en el viaje del Beagle, y los publica como mapa en los tableros del mundo.</p><p lang="en">He organizes the data, as on the Beagle voyage, and publishes it as a map on the in-world boards.</p></div>
-    <div class="paso p3 rv"><h3><span lang="es">Laboratorio · Ángela</span><span lang="en">Laboratory · Ángela</span></h3><p lang="es">¿Cómo se pone a prueba? Diseña el experimento; aquí entran las máquinas de las islas.</p><p lang="en">How do we test it? She designs the experiment; this is where the island machines come in.</p></div>
-    <div class="paso p4 rv"><h3><span lang="es">Análisis · Curie</span><span lang="en">Analysis · Curie</span></h3><p lang="es">¿Qué dicen los datos, y qué no? Interpreta los resultados sin exagerarlos: χ² y p.</p><p lang="en">What does the data say, and what doesn’t it? She interprets results without overstating them: χ² and p.</p></div>
-    <div class="como-pie rv">
-      <p><span lang="es">Son inteligencias artificiales que honran a Soledad Acosta de Samper, Charles Darwin, Ángela Restrepo Moreno y Marie Curie: no se hacen pasar por ellos ni inventan datos de su vida. En el colegio los consulta el tallerista con las preguntas del grupo.</span><span lang="en">They are artificial intelligences that honor Soledad Acosta de Samper, Charles Darwin, Ángela Restrepo Moreno and Marie Curie: they do not pretend to be them or invent facts about their lives. At school the facilitator consults them with the group’s questions.</span></p>
-      <a class="btn" href="#contacto"><span lang="es">Conocerlos en una demostración</span><span lang="en">Meet them in a demo</span> <span class="arr" aria-hidden="true">→</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- 3 · TRECE ISLAS -->
-<section class="trece" id="islas" data-ink="#ffffff" data-bg="#1423b8">
-  <h2><span lang="es">Trece<br>islas</span><span lang="en">Thirteen<br>islands</span></h2>
-  <div class="prints">
-  <img class="print pr1" src="img/print-isla9-trapiche.jpg" width="900" height="1200" loading="lazy" alt="Cañaveral del Trapiche sobre una isla flotante.">
-  <img class="print pr2" src="img/print-isla6-tejeduria.jpg" width="900" height="1200" loading="lazy" alt="Columnas de lana de colores de la Tejeduría.">
-  <img class="print pr3" src="img/print-isla10-galton-abajo.jpg" width="900" height="1200" loading="lazy" alt="El tablero de Galton colgando bajo la isla del Campanario.">
-  </div>
-  <p class="nota"><span lang="es">Un anillo de islas flotantes alrededor de un castillo, unidas por puentes. Se recorre a pie, como un rally de estaciones.</span><span lang="en">A ring of floating islands around a castle, joined by bridges. You walk it like a rally of stations.</span></p>
-</section>
-
-<!-- 4 · LAS ISLAS, UNA POR UNA -->
-<section class="show" id="una-por-una" data-ink="#ffffff" data-bg="#0b0d12">
-  <div class="show-wrap" id="showWrap">
-    <div class="show-stage">
-      <div class="track" id="track">
-        <div class="track-head">
-          <h2><span lang="es">Cada isla, una pregunta</span><span lang="en">Every island, a question</span></h2>
-          <p><span lang="es">Diecisiete distribuciones de probabilidad, cada una con una máquina que la produce sin trampa: es el código del juego.</span><span lang="en">Seventeen probability distributions, each produced by a machine with no tricks: it is the game’s own code.</span></p>
-        </div>
-        <article class="card c1"><img src="img/isla10-campanario.jpg" width="1400" height="788" loading="lazy" alt="Campanario con dos pilares y un tablero de columnas de colores.">
-          <div class="pan"><h3><span lang="es">El Campanario</span><span lang="en">The Bell Tower</span></h3><p class="que"><span class="dist">Normal</span><span lang="es">Un tablero de Galton cuelga bajo la isla: la campana de Gauss se apila sola.</span><span lang="en">A Galton board hangs under the island: the bell curve stacks itself.</span></p></div></article>
-        <article class="card c2"><img src="img/isla1-moneda.jpg" width="1400" height="788" loading="lazy" alt="Casa colonial blanca con techo de teja.">
-          <div class="pan"><h3><span lang="es">La Casa de la Moneda</span><span lang="en">The Mint</span></h3><p class="que"><span class="dist">Bernoulli · binomial</span><span lang="es">¿Es justa una moneda de redstone? 200 tiros y un χ².</span><span lang="en">Is a redstone coin fair? 200 flips and a χ².</span></p></div></article>
-        <article class="card c3"><img src="img/isla6-tejeduria.jpg" width="1400" height="788" loading="lazy" alt="Columnas altas de lana de seis colores.">
-          <div class="pan"><h3><span lang="es">La Tejeduría</span><span lang="en">The Weaving Mill</span></h3><p class="que"><span class="dist"><span lang="es">Uniforme · multinomial</span><span lang="en">Uniform · multinomial</span></span><span lang="es">Un dado de seis lanas teje su propio histograma.</span><span lang="en">A six-wool die weaves its own histogram.</span></p></div></article>
-        <article class="card c4"><img src="img/isla7-arrecife.jpg" width="1400" height="788" loading="lazy" alt="Tanque de vidrio con algas sobre una isla.">
-          <div class="pan"><h3><span lang="es">El Arrecife</span><span lang="en">The Reef</span></h3><p class="que"><span class="dist">Poisson</span><span lang="es">25 algas crecen al azar: ¿cuántos brotes por minuto?</span><span lang="en">25 kelp plants grow at random: how many sprouts a minute?</span></p></div></article>
-        <article class="card c5"><img src="img/isla11-tiro.jpg" width="1400" height="788" loading="lazy" alt="Dispensador frente a una diana.">
-          <div class="pan"><h3><span lang="es">El Campo de Tiro</span><span lang="en">The Range</span></h3><p class="que"><span class="dist">Triangular</span><span lang="es">El dispensador no apunta con una campana, sino con un triángulo.</span><span lang="en">The dispenser aims not with a bell curve but with a triangle.</span></p></div></article>
-        <article class="card c6"><img src="img/isla12-polya.jpg" width="1400" height="788" loading="lazy" alt="Jardín de flores en columnas frente a un tablero.">
-          <div class="pan"><h3><span lang="es">El Jardín de Pólya</span><span lang="en">Pólya’s Garden</span></h3><p class="que"><span class="dist">Beta</span><span lang="es">El que tiene, recibe: cada ronda planta una flor en su columna.</span><span lang="en">The rich get richer: every round plants a flower in its column.</span></p></div></article>
-      </div>
-      <p class="show-mas"><span lang="es">Y además: el Gallinero, el Pozo, la Mina, el Baloto, el Bosque de Bambú, el Trapiche y el Observatorio.</span><span lang="en">Also: the Henhouse, the Well, the Mine, the Lottery, the Bamboo Grove, the Sugar Mill and the Observatory.</span></p>
-    </div>
+    <h2 class="rv"><span lang="es">Aprender a decidir con datos</span><span lang="en">Learning to decide with data</span></h2>
+    <p class="frase rv"><span lang="es">Que cada estudiante sepa hacer una pregunta, ponerla a prueba con un experimento y decidir con evidencia, como en una investigación de verdad.</span><span lang="en">That every student can ask a question, test it with an experiment and decide with evidence, as in real research.</span></p>
+    <p class="nota rv"><span lang="es">La estadística deja de ser una fórmula en el tablero: se enciende, se mide y se discute.</span><span lang="en">Statistics stops being a formula on the board: it is switched on, measured and argued about.</span></p>
   </div>
 </section>
 
@@ -421,8 +406,8 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
 <section class="exp" id="experimento" data-ink="#0b0d12" data-bg="#a9cdf7">
   <div class="grid">
     <div class="exp-izq">
-      <h2 class="rv"><span lang="es">¿Cuál sale más?</span><span lang="en">Which comes up most?</span></h2>
-      <p class="q rv"><span lang="es">En el Jardín de Pólya cada flor que sale vuelve con otra de su color. Tras 7 sacadas, ¿cuántas rojas se habrán añadido con más frecuencia?</span><span lang="en">In Pólya’s Garden every flower drawn comes back with another of its colour. After 7 draws, how many red flowers will most often have been added?</span></p>
+      <h2 class="rv"><span lang="es">La intuición se equivoca</span><span lang="en">Intuition gets it wrong</span></h2>
+      <p class="q rv"><span lang="es">Con el azar, lo que parece obvio casi nunca lo es: por eso hay que medir. Pruébelo. En el Jardín de Pólya cada flor que sale vuelve con otra de su color. Tras 7 sacadas, ¿cuántas rojas se habrán añadido con más frecuencia?</span><span lang="en">With chance, what seems obvious rarely is: that is why we measure. Try it. In Pólya’s Garden every flower drawn comes back with another of its colour. After 7 draws, how many red flowers will most often have been added?</span></p>
       <div class="apuesta rv">
         <p><span lang="es">Su apuesta, de 0 a 7:</span><span lang="en">Your bet, from 0 to 7:</span></p>
         <div class="fichas" id="fichas" role="group" aria-label="0–7">
@@ -452,11 +437,86 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   </div>
 </section>
 
-<!-- 7 · LA ESTACIÓN CURIE -->
-<section class="curie" id="curie" data-ink="#ffffff" data-bg="#0b0d12">
-  <h2 class="rv"><span lang="es">La estación Curie</span><span lang="en">The Curie station</span></h2>
-  <p class="frase rv"><span lang="es">Marie Curie contaba desintegraciones al azar: conteos de Poisson, como los brotes del Arrecife <span class="mini"><img src="img/isla7-arrecife.jpg" width="1400" height="788" alt=""></span>, y esperas exponenciales, como las del Bambú <span class="mini"><img src="img/lamina-bambu.jpg" width="1750" height="1000" alt=""></span>.</span><span lang="en">Marie Curie counted random decays: Poisson counts, like the Reef’s sprouts <span class="mini"><img src="img/isla7-arrecife.jpg" width="1400" height="788" alt=""></span>, and exponential waits, like the Bamboo’s <span class="mini"><img src="img/lamina-bambu.jpg" width="1750" height="1000" alt=""></span>.</span></p>
-  <p class="aclara rv"><span lang="es">Comparten la distribución, no la física: el juego no simula átomos. Justo por eso sirve para pensar en el modelo.</span><span lang="en">They share the distribution, not the physics: the game does not simulate atoms. That is exactly why it helps to think about the model.</span></p>
+<!-- 4 · COMPETENCIAS -->
+<section class="competencias" id="competencias" data-ink="#ffffff" data-bg="#17462a">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Qué competencias desarrolla</span><span lang="en">What competencies it builds</span></h2>
+    <div class="lista">
+      <div class="comp rv"><h3><span lang="es">Pensamiento aleatorio y sistemas de datos</span><span lang="en">Random thinking and data systems</span></h3><p><span lang="es">Estándares de Matemáticas del MEN. Anticipar, contar y comparar lo que produce el azar.</span><span lang="en">Colombia’s math standards (MEN). Anticipate, count and compare what chance produces.</span></p></div>
+      <div class="comp rv"><h3><span lang="es">Indagación</span><span lang="en">Inquiry</span></h3><p><span lang="es">Competencia de Ciencias evaluada por el ICFES. Hacer preguntas, diseñar el experimento y recoger datos.</span><span lang="en">Science competency assessed by ICFES. Ask questions, design the experiment and collect data.</span></p></div>
+      <div class="comp rv"><h3><span lang="es">Explicación de fenómenos</span><span lang="en">Explaining phenomena</span></h3><p><span lang="es">Competencia de Ciencias evaluada por el ICFES. Explicar con un modelo por qué la máquina se comporta así.</span><span lang="en">Science competency assessed by ICFES. Explain with a model why the machine behaves as it does.</span></p></div>
+      <div class="comp rv"><h3><span lang="es">Uso crítico de la inteligencia artificial</span><span lang="en">Critical use of artificial intelligence</span></h3><p><span lang="es">Propia del programa. Revisar lo que dice una IA, rehacer sus cuentas y citar de dónde sale cada dato.</span><span lang="en">Specific to the program. Check what an AI says, redo its numbers and cite where each fact comes from.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · CÓMO SE INVESTIGA: las cuatro etapas, cada una con su experto -->
+<section class="como" id="como" data-ink="#0b0d12" data-bg="#f7dd47">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Cómo se aprende</span><span lang="en">How they learn</span></h2>
+    <p class="intro rv"><span lang="es">Por indagación, en equipos y por estaciones: cada grupo recorre las cuatro etapas del método, una en cada sala del castillo, y en cada una lo orienta un experto.</span><span lang="en">Through inquiry, in teams and by stations: each group goes through the four stages of the method, one in each room of the castle, guided by an expert in each.</span></p>
+    <div class="tile t1 rv"><img src="img/experta-soledad.png" width="300" height="450" loading="lazy" alt="Soledad, figura de bloques con vestido azul de cuello alto y moño."></div>
+    <div class="tile t2 rv"><img src="img/experta-darwin.png" width="300" height="450" loading="lazy" alt="Darwin, figura de bloques calva con barba blanca y abrigo oscuro."></div>
+    <div class="tile t3 rv"><img src="img/experta-angela.png" width="300" height="450" loading="lazy" alt="Ángela, figura de bloques con bata de laboratorio, gafas doradas y canas cortas."></div>
+    <div class="tile t4 rv"><img src="img/experta-curie.png" width="300" height="450" loading="lazy" alt="Marie Curie, figura de bloques con vestido negro de cuello alto y un frasco de radio."></div>
+    <div class="paso p1 rv"><h3><span lang="es">Biblioteca · Soledad</span><span lang="en">Library · Soledad</span></h3><p lang="es">¿Qué se sabe ya? Busca, lee y cita artículos para que la pregunta parta de lo conocido.</p><p lang="en">What is already known? She finds, reads and cites papers so the question starts from what is known.</p></div>
+    <div class="paso p2 rv"><h3><span lang="es">Taller · Darwin</span><span lang="en">Workshop · Darwin</span></h3><p lang="es">Ordena los datos, como en el viaje del Beagle, y los publica como mapa en los tableros del mundo.</p><p lang="en">He organizes the data, as on the Beagle voyage, and publishes it as a map on the in-world boards.</p></div>
+    <div class="paso p3 rv"><h3><span lang="es">Laboratorio · Ángela</span><span lang="en">Laboratory · Ángela</span></h3><p lang="es">¿Cómo se pone a prueba? Diseña el experimento; aquí entran las máquinas de las islas.</p><p lang="en">How do we test it? She designs the experiment; this is where the island machines come in.</p></div>
+    <div class="paso p4 rv"><h3><span lang="es">Análisis · Curie</span><span lang="en">Analysis · Curie</span></h3><p lang="es">¿Qué dicen los datos, y qué no? Interpreta los resultados sin exagerarlos: χ² y p.</p><p lang="en">What does the data say, and what doesn’t it? She interprets results without overstating them: χ² and p.</p></div>
+    <div class="como-pie rv">
+      <p><span lang="es">Son inteligencias artificiales que honran a Soledad Acosta de Samper, Charles Darwin, Ángela Restrepo Moreno y Marie Curie: no se hacen pasar por ellos ni inventan datos de su vida. En el colegio los consulta el tallerista con las preguntas del grupo.</span><span lang="en">They are artificial intelligences that honor Soledad Acosta de Samper, Charles Darwin, Ángela Restrepo Moreno and Marie Curie: they do not pretend to be them or invent facts about their lives. At school the facilitator consults them with the group’s questions.</span></p>
+      <a class="btn" href="#contacto"><span lang="es">Conocerlos en una demostración</span><span lang="en">Meet them in a demo</span> <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · TRECE ISLAS -->
+<section class="trece" id="islas" data-ink="#ffffff" data-bg="#1423b8">
+  <h2><span lang="es">Trece<br>islas</span><span lang="en">Thirteen<br>islands</span></h2>
+  <div class="prints">
+  <img class="print pr1" src="img/print-isla9-trapiche.jpg" width="900" height="1200" loading="lazy" alt="Cañaveral del Trapiche sobre una isla flotante.">
+  <img class="print pr2" src="img/print-isla6-tejeduria.jpg" width="900" height="1200" loading="lazy" alt="Columnas de lana de colores de la Tejeduría.">
+  <img class="print pr3" src="img/print-isla10-galton-abajo.jpg" width="900" height="1200" loading="lazy" alt="El tablero de Galton colgando bajo la isla del Campanario.">
+  </div>
+  <p class="nota"><span lang="es">El material de las unidades: un anillo de islas flotantes alrededor de un castillo, cada una un experimento que se enciende con una palanca. Se recorre a pie, como un rally de estaciones.</span><span lang="en">The material of the units: a ring of floating islands around a castle, each an experiment switched on with a lever. You walk it like a rally of stations.</span></p>
+</section>
+
+<!-- 4 · LAS ISLAS, UNA POR UNA -->
+<section class="show" id="una-por-una" data-ink="#ffffff" data-bg="#0b0d12">
+  <div class="show-wrap" id="showWrap">
+    <div class="show-stage">
+      <div class="track" id="track">
+        <div class="track-head">
+          <h2><span lang="es">Cinco unidades</span><span lang="en">Five units</span></h2>
+          <p><span lang="es">Las unidades de aprendizaje agrupan las trece islas. Cada una parte de una pregunta y termina con un dato.</span><span lang="en">The learning units group the thirteen islands. Each starts from a question and ends with data.</span></p>
+        </div>
+        <article class="card c1"><img src="img/isla1-moneda.jpg" width="1400" height="788" loading="lazy" alt="Casa colonial blanca con techo de teja.">
+          <div class="pan"><h3><span lang="es">1 · El azar y la moneda</span><span lang="en">1 · Chance and the coin</span></h3><p class="que"><span class="dist"><span lang="es">Moneda, Gallinero, Pozo y Mina · Bernoulli, binomial, geométrica, binomial negativa</span><span lang="en">Coin, Henhouse, Well and Mine · Bernoulli, binomial, geometric, negative binomial</span></span><span lang="es">¿Es justa una moneda? ¿Cuántos tiros hasta el primer éxito?</span><span lang="en">Is a coin fair? How many flips until the first success?</span></p></div></article>
+        <article class="card c3"><img src="img/isla12-polya.jpg" width="1400" height="788" loading="lazy" alt="Jardín de flores en columnas frente a un tablero.">
+          <div class="pan"><h3><span lang="es">2 · Urnas y conteos</span><span lang="en">2 · Urns and counts</span></h3><p class="que"><span class="dist"><span lang="es">Baloto, Tejeduría y Jardín de Pólya · hipergeométrica, uniforme, multinomial, beta</span><span lang="en">Lottery, Weaving Mill and Pólya’s Garden · hypergeometric, uniform, multinomial, beta</span></span><span lang="es">¿Qué cambia si lo que sale no vuelve, o vuelve doble?</span><span lang="en">What changes if what is drawn does not come back, or comes back twice?</span></p></div></article>
+        <article class="card c4"><img src="img/isla7-arrecife.jpg" width="1400" height="788" loading="lazy" alt="Tanque de vidrio con algas sobre una isla.">
+          <div class="pan"><h3><span lang="es">3 · El tiempo del azar</span><span lang="en">3 · The timing of chance</span></h3><p class="que"><span class="dist"><span lang="es">Arrecife, Bambú y Trapiche · Poisson, exponencial, gamma</span><span lang="en">Reef, Bamboo and Sugar Mill · Poisson, exponential, gamma</span></span><span lang="es">¿Cuánto falta para el próximo brote? Es la matemática de la radiactividad que midió Marie Curie.</span><span lang="en">How long until the next sprout? It is the mathematics of the radioactivity Marie Curie measured.</span></p></div></article>
+        <article class="card c1"><img src="img/isla10-campanario.jpg" width="1400" height="788" loading="lazy" alt="Campanario con dos pilares y columnas de colores.">
+          <div class="pan"><h3><span lang="es">4 · La forma de los datos</span><span lang="en">4 · The shape of data</span></h3><p class="que"><span class="dist"><span lang="es">Campanario y Campo de Tiro · normal, triangular</span><span lang="en">Bell Tower and Range · normal, triangular</span></span><span lang="es">¿Por qué tantas cosas forman una campana? ¿Y cuándo no?</span><span lang="en">Why do so many things form a bell? And when don’t they?</span></p></div></article>
+        <article class="card c2"><img src="img/lamina-polya-en-el-mundo.jpg" width="1400" height="788" loading="lazy" alt="Tablero dentro del juego con una gráfica de barras.">
+          <div class="pan"><h3><span lang="es">5 · Decidir con evidencia</span><span lang="en">5 · Deciding with evidence</span></h3><p class="que"><span class="dist"><span lang="es">Observatorio · χ², t y F</span><span lang="en">Observatory · χ², t and F</span></span><span lang="es">¿Los datos le dan la razón al modelo? ¿Cuándo se equivoca una prueba?</span><span lang="en">Does the data support the model? When does a test get it wrong?</span></p></div></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · EVALUACIÓN -->
+<section class="evaluacion" id="evaluacion" data-ink="#0b0d12" data-bg="#f7dd47">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Cómo se evalúa</span><span lang="en">How it is assessed</span></h2>
+    <p class="q rv"><span lang="es">El aprendizaje se mide, no se supone.</span><span lang="en">Learning is measured, not assumed.</span></p>
+    <div class="evs">
+      <div class="ev rv"><h3><span lang="es">Antes y después</span><span lang="en">Before and after</span></h3><p><span lang="es">La misma prueba corta al empezar y al terminar (12 preguntas, 30 minutos) mide cuánto se aprendió.</span><span lang="en">The same short test at the start and at the end (12 questions, 30 minutes) measures how much was learned.</span></p></div>
+      <div class="ev rv"><h3><span lang="es">Bitácora</span><span lang="en">Logbook</span></h3><p><span lang="es">Cada experimento queda registrado: la pregunta, la apuesta, los datos y la conclusión.</span><span lang="en">Every experiment is recorded: the question, the bet, the data and the conclusion.</span></p></div>
+      <div class="ev rv"><h3><span lang="es">Rúbrica</span><span lang="en">Rubric</span></h3><p><span lang="es">Cinco criterios con cuatro niveles (pregunta, medición, análisis, uso de la IA y comunicación), convertibles a la escala de 1,0 a 5,0.</span><span lang="en">Five criteria with four levels (question, measurement, analysis, use of AI and communication), convertible to the 1.0–5.0 school scale.</span></p></div>
+      <div class="ev rv"><h3><span lang="es">Producto final</span><span lang="en">Final product</span></h3><p><span lang="es">Un proyecto con datos propios, listo para una feria de ciencia o una red de semilleros. El colegio recibe los resultados del grupo.</span><span lang="en">A project with the group’s own data, ready for a science fair or a research network. The school receives the group’s results.</span></p></div>
+    </div>
+  </div>
 </section>
 
 <!-- 8 · PROGRAMAS -->
@@ -471,7 +531,7 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
         <p lang="es">Para docentes de matemáticas y ciencias que quieren llevar la estadística del tablero al experimento.</p><p lang="en">For math and science teachers who want to take statistics from the whiteboard to the experiment.</p>
         <ul><li lang="es">Guías por grado y rúbricas</li><li lang="en">Grade guides and rubrics</li><li lang="es">Actividades listas para clase</li><li lang="en">Classroom-ready activities</li></ul></article>
       <article class="prog b3"><h3><span lang="es">Semillero de investigación</span><span lang="en">Research club</span></h3><p class="dur"><span lang="es">8 sesiones · piloto</span><span lang="en">8 sessions · pilot</span></p>
-        <p lang="es">Los estudiantes plantean una hipótesis, diseñan el experimento, recogen datos y los ponen a prueba, pasando por las cuatro salas de la escuela.</p><p lang="en">Students state a hypothesis, design the experiment, collect data and test it, moving through the school’s four rooms.</p>
+        <p lang="es">Recorre las cinco unidades y las cuatro etapas del método: los estudiantes plantean una hipótesis, diseñan el experimento, recogen datos y los ponen a prueba.</p><p lang="en">Covers the five units and the four stages of the method: students state a hypothesis, design the experiment, collect data and test it.</p>
         <ul><li lang="es">Para 9.º a 11.º</li><li lang="en">Grades 9 to 11</li><li lang="es">Un proyecto propio, listo para ferias y redes de semilleros</li><li lang="en">A project of their own, ready for science fairs</li><li lang="es">Aprendizaje medido antes y después</li><li lang="en">Learning measured before and after</li></ul></article>
     </div>
     <p class="nota"><span lang="es">En español o en inglés. La inversión se acuerda según el programa y el tamaño del grupo.</span><span lang="en">In Spanish or English. Pricing depends on the program and the group size.</span></p>
@@ -505,13 +565,13 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
   <div class="bloques" id="bloques" aria-label="ScienceCraft"></div>
   <div class="pie-bajo">
     <nav aria-label="Pie">
-      <a href="#como"><span lang="es">Cómo se investiga</span><span lang="en">How it works</span></a>
-      <a href="#islas"><span lang="es">Las islas</span><span lang="en">The islands</span></a>
-      
-      <a href="#experimento"><span lang="es">El experimento</span><span lang="en">The experiment</span></a>
-      <a href="#curie"><span lang="es">La estación Curie</span><span lang="en">The Curie station</span></a>
+      <a href="#proposito"><span lang="es">Propósito</span><span lang="en">Purpose</span></a>
+      <a href="#experimento"><span lang="es">Por qué medir</span><span lang="en">Why measure</span></a>
+      <a href="#competencias"><span lang="es">Competencias</span><span lang="en">Competencies</span></a>
+      <a href="#como"><span lang="es">Cómo se aprende</span><span lang="en">How they learn</span></a>
+      <a href="#islas"><span lang="es">Unidades</span><span lang="en">Units</span></a>
+      <a href="#evaluacion"><span lang="es">Evaluación</span><span lang="en">Assessment</span></a>
       <a href="#programas"><span lang="es">Programas</span><span lang="en">Programs</span></a>
-      <a href="#preguntas"><span lang="es">Preguntas</span><span lang="en">Questions</span></a>
       <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
     </nav>
     <p class="dato"><span lang="es">Las alturas de las letras siguen una binomial: la campana del Campanario. Todas las imágenes son capturas reales del mundo, octubre de 2026.</span><span lang="en">The letter heights follow a binomial: the Bell Tower’s curve. Every image is a real capture from the world, October 2026.</span></p>
