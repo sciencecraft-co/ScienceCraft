@@ -249,6 +249,29 @@ details th:first-child, details td:first-child { text-align: left; }
 .band h3 { grid-column: 1 / 6; font-size: var(--step-lead); line-height: 1.15; letter-spacing: -0.01em; }
 .band p { grid-column: 7 / 13; font-size: var(--step-body); line-height: 1.5; }
 
+/* 9b · descargas: las piezas impresas, en tarjetas con su primera página */
+.descargas { background: var(--black); color: var(--black-ink); padding: 150px 0 130px; }
+.descargas h2 { grid-column: 1 / 8; font-size: var(--step-head); }
+.descargas .q { grid-column: 1 / 8; margin-top: 22px; font-size: var(--step-lead); font-weight: 500; line-height: 1.3; color: var(--soft-on-dark); }
+.docs { grid-column: 1 / 13; margin-top: 56px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.doc { display: flex; flex-direction: column; background: var(--black-2); }
+.doc .portada { position: relative; aspect-ratio: 4 / 3; background: #232937; }
+/* fuera del flujo: así la imagen (452–640 px) nunca empuja la tarjeta más ancha que su columna */
+.doc .portada img { position: absolute; inset: 22px; width: calc(100% - 44px); height: calc(100% - 44px); object-fit: contain;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .5)); }
+.doc .txt { display: flex; flex-direction: column; flex: 1; padding: 24px 24px 26px; }
+.doc h3 { font-size: var(--step-lead); font-weight: 600; line-height: 1.15; }
+.doc p { margin-top: 10px; font-size: var(--step-body); line-height: 1.4; color: var(--soft-on-dark); }
+/* el dato del archivo y el botón, siempre al fondo: así los cuatro botones quedan a la misma altura */
+.doc .meta { margin-top: auto; padding-top: 14px; font-size: var(--step-small); letter-spacing: .02em; color: var(--soft-on-dark); }
+.doc .btn { margin-top: 22px; align-self: flex-start; }
+@media (max-width: 1000px) { .docs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .descargas { padding: 90px 0 70px; }
+  .descargas h2, .descargas .q { grid-column: 1 / 13; }
+  .docs { grid-template-columns: minmax(0, 1fr); margin-top: 36px; }
+}
+
 /* 10 · contacto: renglones grandes */
 .contacto { background: var(--grass); color: var(--grass-ink); }
 .row { display: flex; align-items: flex-end; min-height: 150px; padding: 0 var(--m) 26px; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.02em; text-decoration: none; transition: padding-left .25s var(--ease); }
@@ -398,7 +421,7 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
 /* textura de los campos de color: figuras de Minecraft y de estadística, sutiles (las mismas del impreso; colorimetria.md).
    Blanco al 10 % sobre los oscuros (el texto suave más bajo queda en 5,2), al 22 % sobre el celeste y ámbar al 35 % sobre
    el amarillo, donde el blanco no se ve. */
-.proposito, .show, .show-stage, .curie, .pie, .trece, .band, .b3, .competencias, .contacto, .b2 {
+.proposito, .show, .show-stage, .curie, .pie, .trece, .band, .b3, .competencias, .contacto, .b2, .descargas {
   background-image: url(img/textura-oscura.svg); background-size: 220px 220px; }
 .exp, .recorrido { background-image: url(img/textura-clara.svg); background-size: 220px 220px; }
 .como, .evaluacion, .faq-head, .b1 { background-image: url(img/textura-amarilla.svg); background-size: 220px 220px; }
@@ -602,6 +625,36 @@ a.row.saludo:hover .arr { transform: translateX(4px); }
     <div class="band grid"><h3><span lang="es">¿Qué pasa con los datos de los estudiantes?</span><span lang="en">What about students’ data?</span></h3><p lang="es">Nadie crea cuentas. Si se mide el aprendizaje con una prueba antes y después, se pide consentimiento informado y los datos se manejan según la Ley 1581 de 2012.</p><p lang="en">Nobody creates an account. If learning is measured with a test before and after, informed consent is requested and data is handled under Colombia’s Law 1581 of 2012.</p></div>
     <div class="band grid"><h3><span lang="es">¿Hace falta saber jugar Minecraft?</span><span lang="en">Do you need to know Minecraft?</span></h3><p lang="es">No. Las máquinas se encienden con una palanca y las gráficas se leen en la pared del mundo.</p><p lang="en">No. The machines start with a lever and the charts are read on the world’s walls.</p></div>
     <div class="band grid"><h3><span lang="es">¿En qué idioma?</span><span lang="en">In which language?</span></h3><p lang="es">Las sesiones, en español o en inglés. Las láminas del mundo hoy están en español.</p><p lang="en">Sessions in Spanish or English. The in-world boards are in Spanish for now.</p></div>
+  </div>
+</section>
+
+<!-- 9b · DESCARGAS: las piezas impresas (portafolio-impreso, versión 1 del 24/10/2026) -->
+<section class="descargas" id="descargas" data-ink="#ffffff" data-bg="#0b0d12">
+  <div class="grid">
+    <h2 class="rv"><span lang="es">Para imprimir</span><span lang="en">To print</span></h2>
+    <p class="q rv"><span lang="es">Las mismas piezas que llevamos a una demostración, para compartir con su equipo. Están en español.</span><span lang="en">The same pieces we bring to a demo, to share with your team. They are in Spanish.</span></p>
+    <div class="docs">
+      <article class="doc"><div class="portada"><img src="img/descarga-hoja.jpg" width="452" height="640" loading="lazy" alt="Primera página de la hoja informativa de ScienceCraft."></div>
+        <div class="txt"><h3><span lang="es">Hoja informativa</span><span lang="en">Fact sheet</span></h3>
+          <p lang="es">La idea, las cinco unidades, la evaluación, los programas y el contacto, en una hoja a dos caras.</p><p lang="en">The idea, the five units, assessment, programs and contact, on a two-sided sheet.</p>
+          <p class="meta">PDF · A4 · <span lang="es">2 páginas</span><span lang="en">2 pages</span> · 0,8 MB</p>
+          <a class="btn" href="descargas/ScienceCraft-hoja.pdf" download><span lang="es">Descargar</span><span lang="en">Download</span> <span class="arr" aria-hidden="true">↓</span></a></div></article>
+      <article class="doc"><div class="portada"><img src="img/descarga-folleto.jpg" width="640" height="452" loading="lazy" alt="Cara exterior del folleto tríptico de ScienceCraft."></div>
+        <div class="txt"><h3><span lang="es">Folleto</span><span lang="en">Leaflet</span></h3>
+          <p lang="es">Un tríptico para dejar en una mesa: se imprime a doble cara y se dobla en tres.</p><p lang="en">A tri-fold leaflet for a table: print double-sided and fold in three.</p>
+          <p class="meta">PDF · A4 <span lang="es">apaisado</span><span lang="en">landscape</span> · <span lang="es">2 páginas</span><span lang="en">2 pages</span> · 1,9 MB</p>
+          <a class="btn" href="descargas/ScienceCraft-folleto.pdf" download><span lang="es">Descargar</span><span lang="en">Download</span> <span class="arr" aria-hidden="true">↓</span></a></div></article>
+      <article class="doc"><div class="portada"><img src="img/descarga-dosier.jpg" width="452" height="640" loading="lazy" alt="Portada del dosier de ScienceCraft."></div>
+        <div class="txt"><h3><span lang="es">Dosier</span><span lang="en">Dossier</span></h3>
+          <p lang="es">Para quien decide: el programa completo, las competencias, el piloto y la seguridad de los datos.</p><p lang="en">For decision makers: the full program, competencies, the pilot and data safety.</p>
+          <p class="meta">PDF · A4 · <span lang="es">12 páginas</span><span lang="en">12 pages</span> · 3,7 MB</p>
+          <a class="btn" href="descargas/ScienceCraft-dosier.pdf" download><span lang="es">Descargar</span><span lang="en">Download</span> <span class="arr" aria-hidden="true">↓</span></a></div></article>
+      <article class="doc"><div class="portada"><img src="img/descarga-laminas-a3.jpg" width="640" height="453" loading="lazy" alt="Primera de las láminas del Anillo de las Distribuciones en tamaño A3."></div>
+        <div class="txt"><h3><span lang="es">Láminas del anillo</span><span lang="en">Ring boards</span></h3>
+          <p lang="es">Las láminas de las islas y del Observatorio, con datos reales de las máquinas, para la pared del salón.</p><p lang="en">The boards of the islands and the Observatory, with real data from the machines, for the classroom wall.</p>
+          <p class="meta">PDF · A3 · <span lang="es">14 páginas</span><span lang="en">14 pages</span> · 20 MB</p>
+          <a class="btn" href="descargas/ScienceCraft-laminas-A3.pdf" download><span lang="es">Descargar</span><span lang="en">Download</span> <span class="arr" aria-hidden="true">↓</span></a></div></article>
+    </div>
   </div>
 </section>
 
